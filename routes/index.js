@@ -9,23 +9,37 @@ const db = require("../models");
 router.route("/api/users")
   //create user
   .post((req, res, next) => {
-    //move to create controller after this is working
     db.User.create(req.body)
-    .then(dbUser => res.json(dbUser)) //remove this after testing - this could return hashed user password - change to user id
-    .catch(err => res.status(422).json(err));
+      .then(dbUser => {
+        //delete dbUser.login  //do not send back the user's password
+        res.json(dbUser)
+      })
+      .catch(err => res.status(422).json(err));
   })
 
 router.route("/api/users/:id")
-  //get user info
-  .get((req, res, next) => {
-
+  //get user info by id
+  .get((req, res, next) => {//add authentication here! or around here somewhere
+    db.User.findById(req.params.id)
+      .then(dbUser => {
+        //delete dbUser.login  //do not send back the user's password
+        res.json(dbUser)
+      })
+      .catch(err => res.status(422).json(err));
   })
   //update user
   .put((req, res, next) => {
-
+    db.User.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(dbUser => {
+        //delete dbUser.login  //do not send back the user's password
+        res.json(dbUser)
+      })
+      .catch(err => res.status(404).json(err));
   })
-  //delete user (?)
+  //delete user
   .delete((req, res, next) => {
+    db.User.findByIdAndDelete({ _id: req.params.id })
+    .then(dbUser => res.json(dbUser))
 
   })
 
