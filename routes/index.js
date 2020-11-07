@@ -28,18 +28,18 @@ router.route("/api/users/:id")
   })
   //update user
   //req.body should look like
-//   {
-//     "name": "New User",
-//     "portfolio": [{
-//       stockId: "AAPL",
-//       shares: 1,
-//       initDate: 1604777640851, // this is the raw output of Date.now(), feel free to implement this differently
-//       initPrice: 100, // dollars
-//       currPrice: 101 // dollars
-//     }],
-//     "funds": 7500,
-//     "position": 10 
-// }
+  //   {
+  //     "name": "New User",
+  //     "portfolio": [{
+  //       stockId: "AAPL",
+  //       shares: 1,
+  //       initDate: 1604777640851, // this is the raw output of Date.now(), feel free to implement this differently
+  //       initPrice: 100, // dollars
+  //       currPrice: 101 // dollars
+  //     }],
+  //     "funds": 7500,
+  //     "position": 10 
+  // }
   .put((req, res, next) => {
     db.User.findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbUser => {
@@ -51,7 +51,7 @@ router.route("/api/users/:id")
   //delete user
   .delete((req, res, next) => {
     db.User.findByIdAndDelete({ _id: req.params.id })
-    .then(dbUser => res.json(dbUser))
+      .then(dbUser => res.json(dbUser))
 
   })
 
