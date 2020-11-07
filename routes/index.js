@@ -3,8 +3,7 @@ const router = require("express").Router();
 // const apiRoutes = require("./api");
 const db = require("../models");
 
-// API Routes
-// router.use("/api", apiRoutes);
+
 //API routes
 router.route("/api/users")
   //create user
@@ -28,6 +27,19 @@ router.route("/api/users/:id")
       .catch(err => res.status(422).json(err));
   })
   //update user
+  //req.body should look like
+//   {
+//     "name": "New User",
+//     "portfolio": [{
+//       stockId: "AAPL",
+//       shares: 1,
+//       initDate: 1604777640851, // this is the raw output of Date.now(), feel free to implement this differently
+//       initPrice: 100, // dollars
+//       currPrice: 101 // dollars
+//     }],
+//     "funds": 7500,
+//     "position": 10 
+// }
   .put((req, res, next) => {
     db.User.findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbUser => {
