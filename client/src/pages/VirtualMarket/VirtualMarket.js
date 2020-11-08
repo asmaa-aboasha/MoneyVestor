@@ -1,4 +1,5 @@
 import React from 'react';
+import 'materialize-css';
 
 const VirtualMarket = () =>{
     return(
