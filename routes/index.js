@@ -3,6 +3,8 @@ const router = require("express").Router();
 // const apiRoutes = require("./api");
 const db = require("../models");
 const axios = require("axios");
+const config = require("../config");
+
 
 
 //API routes
@@ -69,6 +71,7 @@ router.route("/stock")
   .get((req, res, next) => {
     const symbol = req.body.symbol.toString().toUpperCase();
     let interval = 60;
+    
     if (req.body.interval && (req.body.interval === "1" || req.body.interval === "5" || req.body.interval === "15" || req.body.interval === "30")) {
       interval = parseInt(req.body.interval); // replace this with more robust code limited to 1min, 5min, 15min, 30min, and 60min options
     }
@@ -82,7 +85,7 @@ db.Stock.findOne({symbol: symbol})
 })
     //if not, make a new request
 
-    axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&outputsize=full&apikey=FGZLKPQ4EWD0K8DO`)
+    axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&outputsize=full&apikey=${config.avKey}`)
       .then(result => {
         //store data in database
         const returnedSymbol = result.data["Meta Data"]["2. Symbol"];
