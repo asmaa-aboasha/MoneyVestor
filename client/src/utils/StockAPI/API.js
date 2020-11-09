@@ -13,6 +13,20 @@ const API = {
                     initDate: d,
                     initPrice: 129.40,
                     currPrice: 114.44
+                },
+                {
+                    stockId: 'AAPL',
+                    shares: 5,
+                    initDate: d,
+                    initPrice: 117.40,
+                    currPrice: 118.97
+                },
+                {
+                    stockId: 'GOOG',
+                    shares: 5,
+                    initDate: d,
+                    initPrice: 1777.44,
+                    currPrice: 1777.44
                 }
             ],
             funds: 1000,

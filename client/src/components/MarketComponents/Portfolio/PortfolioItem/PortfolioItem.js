@@ -16,13 +16,13 @@ const PortfolioItem = (props) => {
     }
     return (
         <Row className='portfolio-item hoverable'>
-            <Col s={6} className='ticker'>
+            <Col s={6} m={8} className='ticker'>
                 <h6>{props.stockId}</h6>
             </Col>
             <Col className='price'>
                 <p className={fontColor}>{props.cPrice}</p>
             </Col>
-            <Col s={3} className='price-change'>
+            <Col className='price-change'>
                 <div className={fontColor}>{dollarDiff}</div>
                 <div className={fontColor}>{ perDiff }%</div>
             </Col>

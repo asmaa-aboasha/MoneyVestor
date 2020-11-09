@@ -38,8 +38,8 @@ const Portfolio = (props) =>{
                     <p>Price/Change</p>
                 </Col>
             </div>
-            
             {portfolio}
+            
         </Col>
     )
 }
