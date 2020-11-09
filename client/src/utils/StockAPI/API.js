@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = {
     //setting up dummy API to build virtual market
-    getUserPortfolio: function () {
+    getUser: function () {
         const d = new Date("2020-11-08")
         const dummyUser = {
             name: 'Logan Walker',
@@ -940,6 +940,8 @@ const API = {
                 }
             }
         }
+
+        return dummyData;
     }
 };
 

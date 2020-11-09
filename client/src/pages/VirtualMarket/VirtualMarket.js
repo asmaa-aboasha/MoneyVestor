@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Portfolio from '../../components/MarketComponents/Portfolio/Portfolio';
+import Chart from '../../components/MarketComponents/Chart/Chart';
 import API from '../../utils/StockAPI/API';
-import { Button } from 'react-materialize';
+import { Row, Col, Button } from 'react-materialize';
 import 'materialize-css';
+import './virtualmarket.css';
 
 const VirtualMarket = () => {
-    const testEndpoint = () => {
-        API.getStocks().then(res => {
-            console.log(res)
-        }).catch(err => console.log(err))
+    const [userObj, setUser] = useState({
+        name: '',
+        portfolio: [],
+        funds: 0,
+        position: 0
+    })
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
+    const getUserData = () => {
+        const res = API.getUser()
+        setUser({
+            name: res.name,
+            portfolio: res.portfolio,
+            funds: res.funds,
+            position: res.position
+        })
     }
+
     return (
-        <div>
-            <Button
-                onClick={() => testEndpoint()}>
-                    Test
-            </Button>
-        </div>
+        <React.Fragment>
+            <Row>
+                <Portfolio portfolio={userObj.portfolio} />
+            </Row>
+
+
+
+        </React.Fragment>
     )
 }
 
