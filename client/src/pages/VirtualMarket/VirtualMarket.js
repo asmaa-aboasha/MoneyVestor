@@ -33,9 +33,6 @@ const VirtualMarket = () => {
             <Row>
                 <Portfolio portfolio={userObj.portfolio} />
             </Row>
-
-
-
         </React.Fragment>
     )
 }
