@@ -38,7 +38,7 @@ const Portfolio = (props) =>{
                     <p>Price/Change</p>
                 </Col>
             </div>
-            <div className='portfolio-body'>{portfolio}</div>
+            {portfolio}
             
         </Col>
     )

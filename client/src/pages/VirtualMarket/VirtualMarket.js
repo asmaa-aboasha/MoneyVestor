@@ -36,6 +36,7 @@ const VirtualMarket = () => {
             <Row className='help'>
                 <Portfolio portfolio={userObj.portfolio} />
                 <Col s={9} className='stats-container'>
+                    <Chart/>
                     <BottomBar 
                         funds={userObj.funds}
                         pos={userObj.position}
