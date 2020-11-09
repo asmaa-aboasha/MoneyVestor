@@ -7,8 +7,8 @@
 }
 
 .portfolio{
+    height: 42rem;
     border: 1px solid gray;
-    height: 100em;
     padding: 0 !important;
 }
 
@@ -31,6 +31,10 @@
 .portfolio-label p{
     color: gray;
     margin: 0;
+}
+
+.portfolio-body{
+    overflow-y: scroll;
 }
 
 .portfolio-item{
@@ -63,5 +67,3 @@
     padding-top: 1% !important;
     font-size: small;
 }
-
-

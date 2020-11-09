@@ -1,0 +1,14 @@
+.bottom-bar{
+    padding:0 !important;
+    padding-left: 1% !important;
+    border-top: 1px solid gray;
+    height: 10%;
+    position: fixed;
+    left:25% !important;
+    bottom: 0;
+}
+
+.search-bar{
+    position: fixed;
+    right: 0 !important;
+}
