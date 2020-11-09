@@ -1,0 +1,16 @@
+.row{
+    width: 100%;
+    margin: 0 !important;
+}
+.col{
+    margin:0 !important;
+}
+.portfolio-item{
+    width:100%;
+    padding-left: 0% !important;
+}
+
+.ticker{
+    padding-left: 2% !important;
+    padding-right: 2% !important;
+}
