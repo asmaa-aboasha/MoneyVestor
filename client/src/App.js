@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import NoMatch from './pages/NoMatch';
 import { Navbar, NavItem, Icon } from 'react-materialize';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import API from "./utils/StockAPI/API";
 
 import './App.css';
 

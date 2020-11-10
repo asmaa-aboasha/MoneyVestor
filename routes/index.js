@@ -1,33 +1,44 @@
 const path = require("path");
 const router = require("express").Router();
 // const apiRoutes = require("./api");
+const stockRoutes = require("./stocks");
 const db = require("../server/models");
-const axios = require("axios");
-const config = require("../config");
-
-
 
 //API routes
 router.route("/api/users")
   //create user
   .post((req, res, next) => {
-    db.User.create(req.body)
+    db.User.create(req.body.data)
       .then(dbUser => {
         //delete dbUser.login  //do not send back the user's password
         res.json(dbUser)
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => {
+        console.log(err);
+        res.status(422).json(err)});
   })
 
-router.route("/api/users/:id")
+router.route("/api/users")
   //get user info by id
   .get((req, res, next) => {//add authentication here! or around here somewhere
-    db.User.findById(req.params.id)
+    if(req.query.id){
+    db.User.findById(req.query.id)
       .then(dbUser => {
-        //delete dbUser.login  //do not send back the user's password
         res.json(dbUser)
       })
-      .catch(err => res.status(422).json(err));
+      .catch(err => res.status(404).json(err));
+    } else {
+      if(req.query.name){
+        db.User.findOne({name: req.query.name})
+        .then(dbUser => {
+          res.json(dbUser);
+        })
+        .catch(err => res.status(404).json(err));
+      }
+      else {
+        res.status(422).send("Please GET either an id or a name");
+      }
+    }
   })
   //update user
   //req.body should look like
@@ -44,16 +55,18 @@ router.route("/api/users/:id")
   //     "position": 10 
   // }
   .put((req, res, next) => {
-    db.User.findOneAndUpdate({ _id: req.params.id }, req.body)
+    db.User.findOneAndUpdate({ _id: req.body.params.id }, req.body.data)
       .then(dbUser => {
         //delete dbUser.login  //do not send back the user's password
         res.json(dbUser)
       })
-      .catch(err => res.status(404).json(err));
+      .catch(err => {
+        console.log(err);
+        res.status(404).json(err)});
   })
   //delete user
   .delete((req, res, next) => {
-    db.User.findByIdAndDelete({ _id: req.params.id })
+    db.User.findByIdAndDelete({ _id: req.query.id })
       .then(dbUser => res.json(dbUser))
 
   })
@@ -65,59 +78,8 @@ router.route("/api/leaderboard")
   })
 
 // stock api routes
+router.use("/api/stock", stockRoutes);
 //get single stock values (5 min intervals for a day)
-router.route("/stock")
-  //get stock values
-  .get((req, res, next) => {
-    const symbol = req.body.symbol.toString().toUpperCase();
-    let interval = 60;
-    if (req.body.interval && (req.body.interval === "1" || req.body.interval === "5" || req.body.interval === "15" || req.body.interval === "30")) {
-      interval = parseInt(req.body.interval); // replace this with more robust code limited to 1min, 5min, 15min, 30min, and 60min options
-    }
-    //add code to check if the local database has recent information
-    db.Stock.findOne({ symbol: symbol })
-      .then(dbStock => {
-        const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
-        if (dbStock.updatedAt >= oldEntryTime) { // if database stock info was updated within the last 30 min
-          console.log("sending db info");
-          res.json(dbStock.data);
-        } else {
-          getStockInfo(res, symbol, interval);
-        }
-      })
-      .catch(err => { // if symbol not found in database
-        getStockInfo(res, symbol, interval);
-      })
-  })
-
-const getStockInfo = (res, symbol, interval) => {
-  //if not, make a new request
-  axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&outputsize=full&apikey=${config.avKey}`)
-    .then(result => {
-      //store data in database
-      const returnedSymbol = result.data["Meta Data"]["2. Symbol"];
-      db.Stock.findOneAndUpdate(
-        { symbol: returnedSymbol }, //filter
-        {
-          symbol: returnedSymbol, //update info
-          data: result.data
-        },
-        { upsert: true, new: true, setDefaultsOnInsert: true } // options to create new entry if none found
-      )
-        .then(result => {
-          console.log("sending new API info");
-          res.send(result.data)
-        }) // send data to client
-        .catch(err => { // catch any errors that occur
-          res.json(err);
-          console.log(err);
-        })
-    })
-    .catch(err => {
-      res.json(err);
-      console.log(err);
-    });
-}
 
 
 // If no API routes are hit, send the React app
