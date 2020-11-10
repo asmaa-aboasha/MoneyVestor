@@ -2,25 +2,39 @@ import axios from "axios";
 
 const API = {
     //setting up dummy API to build virtual market
-    // getUser: function () {
-    //     const d = new Date("2020-11-08")
-    //     const dummyUser = {
-    //         name: 'Logan Walker',
-    //         portfolio: [
-    //             {
-    //                 stockId: 'IBM',
-    //                 shares: 5,
-    //                 initDate: d,
-    //                 initPrice: 129.40,
-    //                 currPrice: 114.44
-    //             }
-    //         ],
-    //         funds: 1000,
-    //         position: 1
-    //     }
+    getUser: function () {
+        const d = new Date("2020-11-08")
+        const dummyUser = {
+            name: 'Logan Walker',
+            portfolio: [
+                {
+                    stockId: 'IBM',
+                    shares: 5,
+                    initDate: d,
+                    initPrice: 129.40,
+                    currPrice: 114.44
+                },
+                {
+                    stockId: 'AAPL',
+                    shares: 5,
+                    initDate: d,
+                    initPrice: 117.40,
+                    currPrice: 118.97
+                },
+                {
+                    stockId: 'GOOG',
+                    shares: 5,
+                    initDate: d,
+                    initPrice: 1777.44,
+                    currPrice: 1777.44
+                }
+            ],
+            funds: 1000,
+            position: 1
+        }
 
-    //     return dummyUser;
-    // },
+        return dummyUser;
+    },
 
     getUserById: (id) => {
         return axios.get("/api/users", { params: { id: id } });

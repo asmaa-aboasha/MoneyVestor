@@ -5,12 +5,65 @@
 .col{
     margin:0 !important;
 }
+
+.portfolio{
+    height: 42rem;
+    border: 1px solid gray;
+    padding: 0 !important;
+}
+
+.portfolio-head{
+    color: white;
+    background-color: #1B9D9E;
+    border-bottom: 1px solid #1B9D9E;
+    padding: 5%;
+}
+.portfolio-head h5{
+    margin: 0;
+}
+
+
+.portfolio-label{
+    display: flex;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+.portfolio-label p{
+    color: gray;
+    margin: 0;
+}
+
+.portfolio-body{
+    overflow-y: scroll;
+}
+
 .portfolio-item{
+    display: inline-flex;
     width:100%;
     padding-left: 0% !important;
+    border-bottom: 1px solid gray;
 }
 
 .ticker{
-    padding-left: 2% !important;
-    padding-right: 2% !important;
+    padding: 2% !important;
+    padding-top: 4% !important;
+    padding-bottom: 4% !important;
+}
+
+.ticker h6{
+    margin: 0;
+}
+
+.price{
+    padding-top: 3% !important;
+    padding-bottom: 4% !important;
+}
+
+.price p{
+    margin:4%;
+}
+
+.price-change{
+    padding-top: 1% !important;
+    font-size: small;
 }

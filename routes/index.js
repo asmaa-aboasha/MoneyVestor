@@ -2,8 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 // const apiRoutes = require("./api");
 const stockRoutes = require("./stocks");
-const db = require("../models");
-const axios = require("axios");
+const db = require("../server/models");
 
 //API routes
 router.route("/api/users")

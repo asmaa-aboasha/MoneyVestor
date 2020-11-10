@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Portfolio from '../../components/MarketComponents/Portfolio/Portfolio';
 import Chart from '../../components/MarketComponents/Chart/Chart';
+import BottomBar from '../../components/MarketComponents/BottomBar/BottomBar'
 import API from '../../utils/StockAPI/API';
 import { Row, Col, Button } from 'react-materialize';
 import 'materialize-css';
@@ -15,6 +16,8 @@ const VirtualMarket = () => {
     })
 
     useEffect(() => {
+        //this is some rough code here for now
+        //eventually, we will need to retreive user data and then update it with the latest prices from API
         getUserData();
     }, []);
 
@@ -30,12 +33,16 @@ const VirtualMarket = () => {
 
     return (
         <React.Fragment>
-            <Row>
+            <Row className='help'>
                 <Portfolio portfolio={userObj.portfolio} />
+                <Col s={9} className='stats-container'>
+                    <Chart/>
+                    <BottomBar 
+                        funds={userObj.funds}
+                        pos={userObj.position}
+                    />
+                </Col>
             </Row>
-
-
-
         </React.Fragment>
     )
 }
