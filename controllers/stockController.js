@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../server/models")
 const axios = require("axios");
 
 module.exports = {

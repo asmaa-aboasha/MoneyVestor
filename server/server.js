@@ -1,13 +1,12 @@
 const express = require("express");
-// const mongoose = require("mongoose");
+const session = require("express-session");
 const routes = require("../routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
 //mongodb mongoose models
 const db = require("./models");
 
-const passport = require("../config/passport");
-
+const passport = require("./passport");
 // Configure body parsing for AJAX requests
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

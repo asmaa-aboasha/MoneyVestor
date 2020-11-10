@@ -3,8 +3,8 @@ const User = require('../models/user')
 
 const strategy = new GoogleStrategy(
 	{
-		clientID: process.env.GOOGLE_CLIENT_ID,
-		clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+		clientID: "XXXXXXXXX",//process.env.GOOGLE_CLIENT_ID,
+		clientSecret: "XXXXXXXXXX",//process.env.GOOGLE_CLIENT_SECRET,
 		callbackURL: '/auth/google/callback'
 	},
 	function(token, tokenSecret, profile, done) {
