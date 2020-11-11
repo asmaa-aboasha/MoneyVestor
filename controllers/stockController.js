@@ -32,23 +32,24 @@ const getStockInfo = (res, symbol, interval) => {
     axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&outputsize=full&apikey=${process.env.avKey}`)
         .then(result => {
             //store data in database
-            const returnedSymbol = result.data["Meta Data"]["2. Symbol"];
-            db.Stock.findOneAndUpdate(
-                { symbol: returnedSymbol }, //filter
-                {
-                    symbol: returnedSymbol, //update info
-                    data: result.data
-                },
-                { upsert: true, new: true, setDefaultsOnInsert: true } // options to create new entry if none found
-            )
-                .then(result => {
-                    console.log("sending new API info");
-                    res.send(result.data)
-                }) // send data to client
-                .catch(err => { // catch any errors that occur
-                    res.json(err);
-                    console.log(err);
-                })
+            res.send(result.data);
+            // const returnedSymbol = result.data["Meta Data"]["2. Symbol"];
+            // db.Stock.findOneAndUpdate(
+            //     { symbol: returnedSymbol }, //filter
+            //     {
+            //         symbol: returnedSymbol, //update info
+            //         data: result.data
+            //     },
+            //     { upsert: true, new: true, setDefaultsOnInsert: true } // options to create new entry if none found
+            // )
+            //     .then(result => {
+            //         console.log("sending new API info");
+            //         res.send(result.data)
+            //     }) // send data to client
+            //     .catch(err => { // catch any errors that occur
+            //         res.json(err);
+            //         console.log(err);
+            //     })
         })
         .catch(err => {
             res.json(err);

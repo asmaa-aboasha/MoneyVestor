@@ -15,7 +15,9 @@ const PortfolioItem = (props) => {
         fontColor = styles.red;
     }
     return (
-        <Row className='portfolio-item hoverable'>
+        <Row 
+            className='portfolio-item hoverable'
+            onClick={props.click}>
             <Col s={6} m={8} className='ticker'>
                 <h6>{props.stockId}</h6>
             </Col>
