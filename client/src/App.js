@@ -6,6 +6,8 @@ import { Navbar, NavItem, Icon } from 'react-materialize';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import './App.css';
+import LoginForm from './pages/Login/Login';
+import SignupForm from './pages/SignUp/SignUp';
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/trade" component={VirtualMarket} />
+          <Route exact path="/login" component={LoginForm} />
+          <Route exact path="/signup" component={SignupForm} />
           <Route component={NoMatch} />
         </Switch>
       </div>
