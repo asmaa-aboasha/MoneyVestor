@@ -4,8 +4,16 @@ import 'materialize-css';
 import { Row, Col, Button } from 'react-materialize';
 import styles from './portfolio.module.css';
 
+// -------------------------------
+// this file is no longer in use
+// -------------------------------
 const Portfolio = (props) =>{
     let portfolio;
+
+    const populateChart = (id) =>{
+        
+    }
+
     if(props.portfolio.length){
         portfolio = (
             props.portfolio.map( item => {
