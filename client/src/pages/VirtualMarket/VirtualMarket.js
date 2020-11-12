@@ -57,9 +57,9 @@ const VirtualMarket = () => {
     let chartData = [];
     const populateChart = (id) => {
         console.log(id); 
-        API.getStockData(id,'60')
+        API.getStockData(id,'5')
             .then(res => {
-                console.log(res.data);
+                chartData = res.data
             })
     }
 
