@@ -5,6 +5,7 @@
   "secure": false,
   "private": true,
   "dependencies": {
+    "@nivo/core": "^0.64.0",
     "@nivo/line": "^0.64.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
