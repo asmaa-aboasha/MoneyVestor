@@ -1,8 +1,3 @@
-module.exports = {
-    User: require("./user"),
-    Stock: require("./stock")
-}
-
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 let MONGO_URL
@@ -27,4 +22,4 @@ db.once('open', () => {
 	)
 })
 
-// module.exports = db
+module.exports = db;

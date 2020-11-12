@@ -3,8 +3,10 @@ const session = require("express-session");
 const routes = require("../routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
+const MongoStore = require('connect-mongo')(session)
 //mongodb mongoose models
 const db = require("./models");
+const User = require('./models/user')
 
 const passport = require("./passport");
 // Configure body parsing for AJAX requests
@@ -13,8 +15,17 @@ app.use(express.json());
 
 // We need to use sessions to keep track of our user's login status
 app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true })
+  session({ 
+    secret: "keyboard cat",
+    store: new MongoStore({ 
+      mongooseConnection: db,
+      autoRemove: 'disabled'
+    }),
+    resave: false, 
+    saveUninitialized: false 
+  })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -24,18 +35,14 @@ if (process.env.NODE_ENV === "production") {
 }
 
 //TODO - add middleware authentication - either passport or basic-express-auth, etc.
+// Passport
+app.use(passport.initialize())
+app.use(passport.session()) // calls the deserializeUser
 
 // Add routes, both API and view
 app.use(routes);
 
-// // Connect to the Mongo DB
-// mongoose.connect(
-//   process.env.MONGODB_URI || "mongodb://localhost/MoneyVestor",
-//   {
-//     useCreateIndex: true,
-//     useNewUrlParser: true
-//   }
-// );
+app.use('/user', User)
 
 // Start the API server
 app.listen(PORT, () =>
