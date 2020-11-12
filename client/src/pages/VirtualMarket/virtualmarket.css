@@ -67,3 +67,7 @@
     padding-top: 1% !important;
     font-size: small;
 }
+.chart-parent{
+    height: 350px;
+    width: 300px;
+}

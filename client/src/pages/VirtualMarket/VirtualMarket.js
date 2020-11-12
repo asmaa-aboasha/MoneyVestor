@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import Portfolio from '../../components/MarketComponents/Portfolio/Portfolio';
 import PortfolioItem from '../../components/MarketComponents/Portfolio/PortfolioItem/PortfolioItem'
 import Chart from '../../components/MarketComponents/Chart/Chart';
+import { ResponsiveLine } from '@nivo/line'
 import BottomBar from '../../components/MarketComponents/BottomBar/BottomBar'
 import API from '../../utils/StockAPI/API';
 import { Row, Col, Button } from 'react-materialize';
@@ -13,7 +14,8 @@ const VirtualMarket = () => {
         name: '',
         portfolio: [],
         funds: 0,
-        position: 0
+        position: 0,
+        dataDisplay: []
     })
 
     useEffect(() => {
@@ -28,7 +30,8 @@ const VirtualMarket = () => {
             name: res.name,
             portfolio: res.portfolio,
             funds: res.funds,
-            position: res.position
+            position: res.position,
+            dataDisplay: []
         });
     }
 
@@ -42,7 +45,7 @@ const VirtualMarket = () => {
                         stockId={item.stockId}
                         cPrice={item.currPrice}
                         iPrice={item.initPrice}
-                        click={()=>populateChart(item.stockId)}
+                        click={() => populateChart(item.stockId)}
                     />
                 )
             })
@@ -53,15 +56,61 @@ const VirtualMarket = () => {
             <div>Buy some stocks to get started!</div>
         )
     }
-    
-    let chartData = [];
+
+    let chart;
+    let chartData = []
     const populateChart = (id) => {
-        console.log(id); 
-        API.getStockData(id,'5')
-            .then(res => {
-                chartData = res.data
-            })
+        let res = API.getStockData()
+        console.log(res)
+        formatData(res);
+
     }
+
+    const formatData = (raw) => {
+        
+        let id = raw["Meta Data"]["2. Symbol"];
+        let rawData = raw["Time Series (5min)"];
+
+        let data = Object.keys(rawData).map(key => {
+            let dateTime = key.split(" ");
+            let x = dateTime[1];
+            let y = rawData[key]["4. close"];
+            return (
+                {
+                    "x": x,
+                    "y": y
+                }
+            )
+        })
+
+        data.reverse();
+        let formattedData = {
+            "id": id,
+            "color": "#000000",
+            "data": data
+        };
+
+        chartData.push(formattedData)
+        setUser({
+            name: userObj.name,
+            portfolio: userObj.portfolio,
+            funds: userObj.funds,
+            position: userObj.position,
+            dataDisplay: chartData
+        })
+    }
+
+    if (userObj.dataDisplay.length) {
+        console.log(userObj.dataDisplay)
+        chart = (
+            <Chart data={userObj.dataDisplay}/>
+        )
+    }
+    else {
+        console.log(userObj.dataDisplay)
+        chart = 'Click on a stock to view price chart';
+    }
+
 
     return (
         <React.Fragment>
@@ -82,7 +131,7 @@ const VirtualMarket = () => {
 
                 </Col>
                 <Col s={9} className='stats-container'>
-                    <Chart />
+                    {chart}
                     <BottomBar
                         funds={userObj.funds}
                         pos={userObj.position}
