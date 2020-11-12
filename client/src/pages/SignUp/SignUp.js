@@ -24,13 +24,13 @@ class SignupForm extends Component {
 		event.preventDefault()
 		// TODO - validate!
 		axios
-			.post('/auth/signup', {
+			.post('/api/users', {
 				username: this.state.username,
 				password: this.state.password
 			})
 			.then(response => {
 				console.log(response)
-				if (!response.data.errmsg) {
+				if (response.status === 200) {
 					console.log('youre good')
 					this.setState({
 						redirectTo: '/login'

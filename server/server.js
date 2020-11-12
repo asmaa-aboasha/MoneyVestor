@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3001;
 const MongoStore = require('connect-mongo')(session)
 //mongodb mongoose models
 const db = require("./models");
+const User = require('./models/user')
 
 const passport = require("./passport");
 // Configure body parsing for AJAX requests
@@ -40,6 +41,8 @@ app.use(passport.session()) // calls the deserializeUser
 
 // Add routes, both API and view
 app.use(routes);
+
+app.use('/user', User)
 
 // Start the API server
 app.listen(PORT, () =>
