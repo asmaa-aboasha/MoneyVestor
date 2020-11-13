@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const API = {
     //setting up dummy API to build virtual market
     getUser: function () {
@@ -36,40 +37,60 @@ const API = {
         return dummyUser;
     },
 
-    //some testing scripts
-    // API.createUser("John Edwards", 10000);
-    // API.getUserById("5fa9f9a9f368650950b68be8").then(result => console.log(result.data));
-    // API.getUserByName("John Edwards").then(({ data }) => {
-    //   const portfolioAdd = {stockId: "AAPL", shares: 1, initDate: new Date(Date.now()), initPrice: 100, currPrice: 101}
-    //   const newFunds = 7500;
-    //   API.updateUser(data, portfolioAdd, newFunds)
-    //   .then(res => console.log(res));
-    // });
-    //   API.getUserByName("Dummy User").then(({ data }) => {
-    //   if(data !== null){
-    //     API.deleteUser(data._id);
-    //   }
-    // });
+    // let portfolioSymbols = ["PG", "MSFT"];
+    // console.log(API.getCurrentValues(portfolioSymbols))
+    // returns an array of objects of the form 
+    // [ {
+    //     symbol: "PG", 
+    //     price: 144.280
+    // } , {
+    //     symbol: "MSFT", 
+    //     price: 216.5100
+    // } ]
+    getCurrentValues: async (symbols) => {
+        const response = await axios.get("/api/stock/currentValues", { params: { symbols: symbols } });
+        let currentValues = [];
+        for (let i = 0; i < response.data.length; i++) {
+            if (response.data[i].hasOwnProperty("Global Quote")) { // response has one of these for each stock, with we haven't exceeded the api limit
+                const globalQuote = response.data[i]["Global Quote"];
+                currentValues.push({
+                    symbol: globalQuote["01. symbol"],
+                    price: parseFloat(globalQuote["05. price"])
+                })
+            }
+        }
+        return currentValues;
+    },
+
+    
+    // use like this : console.log(API.searchForStocks("BIG")); - also works on corp names!
+    // console.log(API.searchForStocks("microsoft"));
+    // returns an array of objects of the form 
+    // [  {
+    //     symbol: "BIG", 
+    //     name: "Big Lots Inc."
+    // }, {
+    //     symbol: "BIIG", 
+    //     name: "Somebody else"
+    // }]
+    searchForStocks: async (userInput) => { 
+        const response = await axios.get("/api/stock/search", {params: {symbol: userInput}});
+        let searchMatches = [];
+        for (let i = 0; i < response.data.length; i++) {
+            console.log(response.data[i]);
+            if(response.data[i].hasOwnProperty("1. symbol")) {
+                searchMatches.push({
+                    symbol: response.data[i]["1. symbol"],
+                    name: response.data[i]["2. name"]
+                })
+            }
+        }
+        return searchMatches;
+    },
+
+
     // API.getStockData("MSFT", 60).then(res => console.log(res));
-    getUserById: (id) => {
-        return axios.get("/api/users", { params: { id: id } });
-    },
-    getUserByName: (name) => {
-        return axios.get("/api/users", { params: { name: name } });
-    },
-    createUser: (name, funds) => {
-        return axios.post("/api/users", { data: { name: name, funds: funds } });
-    },
-    updateUser: (userObj, portfolioAdd, funds) => { // userObj is results.data from getUserById
-        return axios.put("/api/users", {
-            params: { id: userObj._id },
-            data: { name: userObj.name, portfolio: [...userObj.portfolio, portfolioAdd], funds: funds }
-        })
-    },
-    deleteUser: (id) => {
-        return axios.delete("/api/users", { params: { id: id } });
-    },
-    getStockData: (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15', '30', or '60' for those number of minutes
+    getStockData: async (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15', '30', or '60' for those number of minutes
         // return axios.get("/api/stock", { params: { symbol: symbol, interval: interval } });
         let object = {
             "Meta Data": {
