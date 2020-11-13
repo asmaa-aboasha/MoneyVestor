@@ -1,0 +1,35 @@
+#headline {
+    position: fixed;
+    top: 25%;
+    left: 5%;
+    width: 45%;
+    color: rgb(88, 85, 85);
+    font-weight: 500;
+}
+
+#subheadline {
+    position: fixed;
+    top: 44%;
+    left: 5%;
+    width: 40%;
+    line-height: 35px;
+    color: rgb(88, 85, 85);
+}
+
+.started-button {
+    position: fixed;
+    top: 65%;
+    left: 5%;
+    height: 45px;
+    width: 12%;
+    border-radius: 35px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    background-color: teal;
+    font-size: 18px;
+}
+
+.started-button a {
+    color: white; 
+}
