@@ -29,7 +29,7 @@ module.exports = {
 //helper function
 const getStockInfo = (res, symbol, interval) => {
     //if not, make a new request
-    axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&outputsize=full&apikey=${process.env.avKey}`)
+    axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&apikey=${process.env.avKey}`)
         .then(result => {
             //store data in database
             res.send(result.data);

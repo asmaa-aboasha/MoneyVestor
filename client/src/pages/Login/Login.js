@@ -16,6 +16,8 @@ class LoginForm extends Component {
   
     }
 
+
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -27,7 +29,7 @@ class LoginForm extends Component {
         console.log('handleSubmit')
 
         axios
-            .post('/api/users', {
+            .post('/api/login', {
                 username: this.state.username,
                 password: this.state.password
             })
@@ -53,6 +55,7 @@ class LoginForm extends Component {
     }
 
     render() {
+        console.log(this.props);
         if (this.state.redirectTo) {
             return <Redirect to={{ pathname: "/" }} />
         } else {

@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
 
 
 // this route is just used to get the user basic info
-router.get('/user', (req, res, next) => {
+router.get('/api/user', (req, res, next) => {
 	console.log('===== user!!======')
 	console.log(req.user)
 	if (req.user) {
@@ -42,7 +42,7 @@ router.get('/user', (req, res, next) => {
 })
 
 router.post(
-	'/login',
+	'/api/login',
 	function(req, res, next) {
 		console.log(req.body)
 		console.log('================')
@@ -73,9 +73,10 @@ router.post('/logout', (req, res) => {
 
 router.post('/api/signup', (req, res) => {
 	const { username, password } = req.body
+	console.log(password);
 	// ADD VALIDATION
 	console.log("HIT SIGNUP");
-	User.findOne({ 'local.username': username }, (err, userMatch) => {
+	User.create({ 'local.username': username, 'local.password' : password, funds: 10000 }, (err, userMatch) => {
 		console.log(err);
 		console.log(userMatch)
 		if (userMatch) {
