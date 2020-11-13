@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 // import Portfolio from '../../components/MarketComponents/Portfolio/Portfolio';
 import PortfolioItem from '../../components/MarketComponents/Portfolio/PortfolioItem/PortfolioItem'
 import Chart from '../../components/MarketComponents/Chart/Chart';
-import { ResponsiveLine } from '@nivo/line'
 import BottomBar from '../../components/MarketComponents/BottomBar/BottomBar'
 import API from '../../utils/StockAPI/API';
 import { Row, Col, Button } from 'react-materialize';
@@ -60,9 +59,12 @@ const VirtualMarket = () => {
     let chart;
     let chartData = []
     const populateChart = (id) => {
-        let res = API.getStockData()
-        console.log(res)
-        formatData(res);
+        API.getStockData(id)
+            .then(res =>{
+                console.log(res)
+                formatData(res);
+            })
+        
 
     }
 
