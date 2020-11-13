@@ -54,7 +54,7 @@ const API = {
     
     // use like this : console.log(API.searchForStocks("BIG")); - also works on corp names!
     // console.log(API.searchForStocks("microsoft"));
-    searchForStocks: async (userInput) => { // returns an array of objects of the form [{symbol: "BIG", name: "Big Lots Inc."}, {symbol: "BIIG", name: "Sombody else"}]
+    searchForStocks: async (userInput) => { // returns an array of objects of the form [{symbol: "BIG", name: "Big Lots Inc."}, {symbol: "BIIG", name: "Somebody else"}]
         const response = await axios.get("/api/stock/search", {params: {symbol: userInput}});
         let searchMatches = [];
         for (let i = 0; i < response.data.length; i++) {
