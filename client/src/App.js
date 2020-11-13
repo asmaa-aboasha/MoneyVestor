@@ -8,6 +8,7 @@ import axios from 'axios';
 import './App.css';
 import LoginForm from './pages/Login/Login';
 import SignupForm from './pages/SignUp/SignUp';
+import API from './utils/StockAPI/API';
 
 
 class App extends Component {
