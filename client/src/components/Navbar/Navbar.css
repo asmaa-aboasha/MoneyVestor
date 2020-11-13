@@ -1,0 +1,67 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98%;
+    height: 80px;
+    background: white !important;
+}
+
+.navbar-navigation {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 2rem; 
+}
+
+.navbar-logo a {
+    color: teal;
+    text-decoration: none;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.navbar-items ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar-items li {
+    padding: 0 1rem;
+}
+
+.navbar-items a:hover,
+.navbar-items a:active {
+    color: rgb(21, 54, 32);
+}
+
+.login-link {
+    margin-top: 30px;
+}
+
+.login-link a {
+    color: teal;
+    font-size: 16px;
+}
+
+.button {
+    padding: 0px;
+    margin-top: 15px;
+    margin-right: 30px;
+    height: 45px;
+    width: 130%;
+    border-radius: 35px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    background-color: teal;
+    font-size: 16px;
+}
+
+.button a {
+    color: white; 
+}
