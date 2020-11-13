@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.3",
     "express-session": "^1.17.1",
+    "http-proxy-middleware": "^1.0.6",
     "if-env": "^1.0.4",
     "mongoose": "^5.10.12",
     "passport": "^0.4.1",
