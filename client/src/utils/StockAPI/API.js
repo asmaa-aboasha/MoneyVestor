@@ -39,13 +39,24 @@ const API = {
 
     // let portfolioSymbols = ["PG", "MSFT"];
     // console.log(API.getCurrentValues(portfolioSymbols))
+    // returns an array of objects of the form 
+    // [ {
+    //     symbol: "PG", 
+    //     price: 144.280
+    // } , {
+    //     symbol: "MSFT", 
+    //     price: 216.5100
+    // } ]
     getCurrentValues: async (symbols) => {
         const response = await axios.get("/api/stock/currentValues", { params: { symbols: symbols } });
-        let currentValues = {};
+        let currentValues = [];
         for (let i = 0; i < response.data.length; i++) {
             if (response.data[i].hasOwnProperty("Global Quote")) { // response has one of these for each stock, with we haven't exceeded the api limit
                 const globalQuote = response.data[i]["Global Quote"];
-                currentValues[globalQuote["01. symbol"]] = response.data[i]["Global Quote"]["05. price"];
+                currentValues.push({
+                    symbol: globalQuote["01. symbol"],
+                    price: parseFloat(globalQuote["05. price"])
+                })
             }
         }
         return currentValues;
@@ -54,7 +65,15 @@ const API = {
     
     // use like this : console.log(API.searchForStocks("BIG")); - also works on corp names!
     // console.log(API.searchForStocks("microsoft"));
-    searchForStocks: async (userInput) => { // returns an array of objects of the form [{symbol: "BIG", name: "Big Lots Inc."}, {symbol: "BIIG", name: "Somebody else"}]
+    // returns an array of objects of the form 
+    // [  {
+    //     symbol: "BIG", 
+    //     name: "Big Lots Inc."
+    // }, {
+    //     symbol: "BIIG", 
+    //     name: "Somebody else"
+    // }]
+    searchForStocks: async (userInput) => { 
         const response = await axios.get("/api/stock/search", {params: {symbol: userInput}});
         let searchMatches = [];
         for (let i = 0; i < response.data.length; i++) {
