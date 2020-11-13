@@ -24,7 +24,7 @@ class SignupForm extends Component {
 		event.preventDefault()
 		// TODO - validate!
 		axios
-			.post('/api/users', {
+			.post('/api/signup', {
 				username: this.state.username,
 				password: this.state.password
 			})
