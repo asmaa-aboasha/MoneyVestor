@@ -1,8 +1,6 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://localhost:3001/",
-  "secure": false,
   "private": true,
   "dependencies": {
     "@nivo/core": "^0.64.0",
