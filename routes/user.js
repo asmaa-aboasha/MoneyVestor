@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../server/models/user')
-const passport = require('../passport')
+const passport = require('../server/passport')
 
 router.post('/', (req, res) => {
     console.log('user signup');
@@ -71,10 +71,13 @@ router.post('/logout', (req, res) => {
 	}
 })
 
-router.post('/signup', (req, res) => {
+router.post('/api/signup', (req, res) => {
 	const { username, password } = req.body
 	// ADD VALIDATION
+	console.log("HIT SIGNUP");
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
+		console.log(err);
+		console.log(userMatch)
 		if (userMatch) {
 			return res.json({
 				error: `Sorry, already a user with the username: ${username}`
