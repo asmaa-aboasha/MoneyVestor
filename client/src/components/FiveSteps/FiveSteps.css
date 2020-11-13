@@ -1,0 +1,9 @@
+.card {
+  position: fixed;
+  bottom: 0;
+}
+
+.card-two {
+    position: fixed; 
+    /* bottom: 0; */
+}
