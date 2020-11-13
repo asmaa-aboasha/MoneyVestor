@@ -2,7 +2,7 @@ const db = require("../server/models")
 const axios = require("axios");
 
 module.exports = {
-    getStockInfo: (req, res) => {
+    getStockInfo: (req, res) => { // get intra-day stock data on one or many stocks
         if (typeof req.query.symbol === 'string') { // find one
             getOne(req, res);
         }
@@ -10,7 +10,8 @@ module.exports = {
             getMany(req, res);
         }
     },
-    getCurrentValues: async (req, res) => {
+
+    getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
         let symbolArray = req.query.symbols//.replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").toUpperCase().split(","); // this isn't necessary
         let stocks = await symbolArray.map(async symbol => {
             const request = await axios.get(
@@ -28,6 +29,18 @@ module.exports = {
                 console.log(err);
                 res.json({ error: err });
             })
+    },
+
+    getSearchEndpoint: (req, res) => { // search for stock symbols matching a user input
+        let symbol = req.query.symbol;
+        axios.get(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${process.env.avKey}`)
+            .then(result => {
+                res.send(result.data.bestMatches);
+            })
+            .catch(err => {
+                res.json(err);
+                console.log(err);
+            });
     }
 }
 

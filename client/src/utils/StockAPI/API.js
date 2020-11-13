@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const API = {
     //setting up dummy API to build virtual market
     getUser: function () {
@@ -49,6 +50,25 @@ const API = {
         }
         return currentValues;
     },
+
+    
+    // use like this : console.log(API.searchForStocks("BIG")); - also works on corp names!
+    // console.log(API.searchForStocks("microsoft"));
+    searchForStocks: async (userInput) => { // returns an array of objects of the form [{symbol: "BIG", name: "Big Lots Inc."}, {symbol: "BIIG", name: "Sombody else"}]
+        const response = await axios.get("/api/stock/search", {params: {symbol: userInput}});
+        let searchMatches = [];
+        for (let i = 0; i < response.data.length; i++) {
+            console.log(response.data[i]);
+            if(response.data[i].hasOwnProperty("1. symbol")) {
+                searchMatches.push({
+                    symbol: response.data[i]["1. symbol"],
+                    name: response.data[i]["2. name"]
+                })
+            }
+        }
+        return searchMatches;
+    },
+
 
     // API.getStockData("MSFT", 60).then(res => console.log(res));
     getStockData: async (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15', '30', or '60' for those number of minutes
