@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import VirtualMarket from './pages/VirtualMarket/VirtualMarket';
 import Home from './pages/Home/Home';
 import NoMatch from './pages/NoMatch';
@@ -15,7 +15,8 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: false,
-      username: null
+      username: null,
+      user: {}
     }
 
     this.getUser = this.getUser.bind(this)
@@ -40,13 +41,15 @@ class App extends Component {
         console.log(response.data)
         this.setState({
           loggedIn: true,
-          username: response.data.user
+          username: response.data.user.username,
+          user: response.data.user
         })
       } else {
         // console.log('Get user: no user');
         this.setState({
           loggedIn: false,
-          username: null
+          username: null,
+          user: {}
         })
       }
     })
@@ -92,7 +95,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/trade" component={VirtualMarket} />
-            <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} />} />
+            <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user}/>} />
             <Route exact path="/signup" component={SignupForm} />
             <Route component={NoMatch} />
           </Switch>
