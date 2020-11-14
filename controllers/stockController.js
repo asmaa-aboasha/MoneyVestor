@@ -46,7 +46,7 @@ module.exports = {
 
 const getOne = (req, res) => {
     const symbol = req.query.symbol.toString().toUpperCase();
-    let interval = 60;
+    let interval = 5;
     if (req.query.interval && (req.query.interval === "1" || req.query.interval === "5" || req.query.interval === "15" || req.query.interval === "30")) {
         interval = parseInt(req.query.interval);
     }
