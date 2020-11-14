@@ -4,6 +4,7 @@ import styles from './searchresult.module.css';
 import 'materialize-css';
 
 const SearchResult = (props) => {
+    
     return(
         <React.Fragment>
             <Row className={styles.res}>

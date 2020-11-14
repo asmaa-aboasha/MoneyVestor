@@ -6,9 +6,10 @@ import BuySell from '../../components/MarketComponents/BuySell/BuySell';
 import SearchResult from '../../components/MarketComponents/SearchResult/SearchResult';
 import BottomBar from '../../components/MarketComponents/BottomBar/BottomBar'
 import API from '../../utils/StockAPI/API';
-import { Row, Col, Button } from 'react-materialize';
+import { Row, Col} from 'react-materialize';
 import 'materialize-css';
 import './virtualmarket.css';
+// import { set } from 'mongoose';
 
 const VirtualMarket = () => {
     const [userObj, setUser] = useState({
@@ -17,13 +18,12 @@ const VirtualMarket = () => {
         funds: 0,
         position: 0,
         dataDisplay: []
-    })
+    });
 
-    useEffect(() => {
-        //this is some rough code here for now
-        //eventually, we will need to retreive user data and then update it with the latest prices from API
-        getUserData();
-    }, []);
+    const [searchObj, setSearch] = useState({
+        res: null,
+        q: ''
+    })
 
     const getUserData = () => {
         const res = API.getUser()
@@ -34,7 +34,38 @@ const VirtualMarket = () => {
             position: res.position,
             dataDisplay: []
         });
+
+        let stocks = [];
+        res.portfolio.forEach(stock => {
+            stocks.push(stock.stockId)
+        })
+        API.getCurrentValues(stocks)
+            .then(res => {
+                let portfolio = userObj.portfolio;
+                portfolio.forEach((item,i) =>{
+                    item.currPrice = res[i].price;
+                });
+
+                setUser({
+                    name: userObj.name,
+                    portfolio: portfolio,
+                    funds: userObj.funds,
+                    position: userObj.position,
+                    dataDisplay: []
+                });
+
+            })
+
     }
+
+    useEffect(() => {
+        //this is some rough code here for now
+        //eventually, we will need to retreive user data and then update it with the latest prices from API
+        getUserData();
+    }, []);
+
+    //loading user info and rendering portfolio
+    
 
     let portfolio;
     if (userObj.portfolio.length) {
@@ -58,12 +89,13 @@ const VirtualMarket = () => {
         )
     }
 
+
+    // loading stock data and rendering chart
     let chart;
     let chartData = []
     const populateChart = (id) => {
         API.getStockData(id)
             .then(res => {
-                console.log(res.data)
                 formatData(res.data);
             })
     }
@@ -101,7 +133,6 @@ const VirtualMarket = () => {
         };
 
         chartData.push(formattedData)
-        console.log(chartData)
         setUser({
             name: userObj.name,
             portfolio: userObj.portfolio,
@@ -112,16 +143,26 @@ const VirtualMarket = () => {
     }
 
     if (userObj.dataDisplay.length) {
-        console.log(userObj.dataDisplay)
         chart = (
             <Chart axis={userObj.xaxis} data={userObj.dataDisplay} />
         )
     }
     else {
-        console.log(userObj.dataDisplay)
         chart = 'Click on a stock to view price chart';
     }
 
+
+    //loading search results and rendering info
+    const handleSearch = (event) => {
+        setSearch({
+            res: searchObj.res,
+            q: event.target.value
+        })
+    }
+
+    const handleSubmit = () => {
+
+    }
 
     return (
         <React.Fragment>
@@ -145,6 +186,8 @@ const VirtualMarket = () => {
                     <BottomBar
                         funds={userObj.funds}
                         pos={userObj.position}
+                        change={(e) => handleSearch(e)}
+                        click={() => handleSubmit()}
                     />
                 </Col>
                 <Col s={3}>

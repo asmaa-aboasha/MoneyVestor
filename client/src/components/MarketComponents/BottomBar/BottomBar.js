@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, TextInput, Icon } from 'react-materialize';
+import { Button, Col, TextInput, Icon } from 'react-materialize';
 import './bottombar.css'
 import 'materialize-css';
 
@@ -12,13 +12,23 @@ const BottomBar = (props) => {
             <Col className='center-align'>
                 <div>POSITION: {props.pos}/100</div>
             </Col>
-            <Col l={3} className='search-bar'>
+            <Col l={4} className='search-bar'>
                 <TextInput
                     l={12}
                     icon={<Icon>search</Icon>}
-                    id="TextInput-4"
+                    id="stock-search"
                     label="Search for stocks..."
+                    onChange={props.change}
                 />
+
+
+            </Col>
+            <Col className='search-btn'>
+                <Button 
+                    onClick={props.click}
+                    small>
+                    <Icon center>send</Icon>
+                </Button>
             </Col>
         </Col>
     )
