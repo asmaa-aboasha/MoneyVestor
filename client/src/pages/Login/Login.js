@@ -36,9 +36,6 @@ class LoginForm extends Component {
             })
             .then(response => {
                 console.log('login response: ')
-                if(response.status === 401) {  
-                    this.setState({...this.state, isPasswordComboMessageShowing: true})
-                }
                 if (response.status === 200) {
                     // update the state to redirect to home
                     this.setState({
@@ -53,11 +50,13 @@ class LoginForm extends Component {
             }).catch(error => {
                 console.log('login error: ')
                 console.log(error);
+                this.setState({
+                    isPasswordComboMessageShowing: true
+                })
             })
         }
         
         render() {
-            console.log(this.state.redirectTo);
             if (this.state.redirectTo) {
                 return <Redirect to={{ pathname: this.state.redirectTo }} />
             }
@@ -67,7 +66,7 @@ class LoginForm extends Component {
                     <h4>Login</h4>
                     <form className="form-horizontal">
                         <div className="form-group">
-                            {this.state.isPasswordComboMessageShowing && <div>Password combo bad</div>  }
+                            {this.state.isPasswordComboMessageShowing && <div>Either Username or Password entered was invalid</div>  }
                             <div className="col-1 col-ml-auto">
                                 <label className="form-label" htmlFor="username">Username</label>
                             </div>

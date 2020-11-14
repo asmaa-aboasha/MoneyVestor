@@ -10,7 +10,9 @@ class SignupForm extends Component {
 			username: '',
 			password: '',
 			confirmPassword: '',
-			redirectTo: null
+			redirectTo: null,
+			noBlankInputs: false,
+			passwordsMustMatch: false,
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
@@ -22,7 +24,12 @@ class SignupForm extends Component {
 	}
 	handleSubmit(event) {
 		event.preventDefault()
-		// TODO - validate!
+		if (this.state.username === '' || this.state.password === '' || this.state.confirmPassword === '') {
+			return this.setState({ noBlankInputs: true })
+		}
+		if (this.state.password !== this.state.confirmPassword) {
+			return this.setState({ passwordsMustMatch: true })
+		}
 		axios
 			.post('/api/signup', {
 				username: this.state.username,
@@ -40,7 +47,6 @@ class SignupForm extends Component {
 			})
 	}
 	render() {
-		console.log(this.state.redirectTo)
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
@@ -48,6 +54,8 @@ class SignupForm extends Component {
             <Container>
 			<div className="SignupForm">
 				<h1>Signup form</h1>
+				{this.state.noBlankInputs && <div>All fields must have inputs</div>  }
+				{this.state.passwordsMustMatch && <div>Password field and Confirm Password field are not Matching</div>  }
 				<label htmlFor="username">Username: </label>
 				<input
 					type="text"
