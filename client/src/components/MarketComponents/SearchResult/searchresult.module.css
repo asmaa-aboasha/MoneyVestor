@@ -1,0 +1,32 @@
+.res{
+    padding-left: 3%;
+    border-bottom: 1px solid gray;
+    padding-bottom: 4%;
+}
+.symbol{
+    line-height: 1.25rem;
+    margin: 0 !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.companyName{
+    line-height: 1.5rem;
+}
+
+.currPrice{
+    margin-top: 1rem;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    color: green;
+}
+
+.mrkt{
+    color: gray;
+    font-size: .9rem;
+}
+
+.delta{
+    color:green;
+
+}

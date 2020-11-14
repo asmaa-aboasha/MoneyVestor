@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 // import Portfolio from '../../components/MarketComponents/Portfolio/Portfolio';
 import PortfolioItem from '../../components/MarketComponents/Portfolio/PortfolioItem/PortfolioItem'
 import Chart from '../../components/MarketComponents/Chart/Chart';
+import BuySell from '../../components/MarketComponents/BuySell/BuySell';
+import SearchResult from '../../components/MarketComponents/SearchResult/SearchResult';
 import BottomBar from '../../components/MarketComponents/BottomBar/BottomBar'
 import API from '../../utils/StockAPI/API';
 import { Row, Col, Button } from 'react-materialize';
@@ -67,7 +69,7 @@ const VirtualMarket = () => {
     }
 
     const formatData = (raw) => {
-        chartData=[];
+        chartData = [];
         let id = raw["Meta Data"]["2. Symbol"];
         let rawData = raw["Time Series (5min)"];
 
@@ -123,7 +125,7 @@ const VirtualMarket = () => {
 
     return (
         <React.Fragment>
-            <Row className='help'>
+            <Row>
                 <Col s={3} className='portfolio'>
                     <div className='portfolio-head'>
                         <h5 className='center-align'>My Portfolio</h5>
@@ -137,14 +139,19 @@ const VirtualMarket = () => {
                         </Col>
                     </div>
                     {portfolio}
-
                 </Col>
-                <Col s={9} className='stats-container'>
+                <Col s={6} className='stats-container'>
                     {chart}
                     <BottomBar
                         funds={userObj.funds}
                         pos={userObj.position}
                     />
+                </Col>
+                <Col s={3}>
+                    <div className='info'>
+                        <SearchResult />
+                        <BuySell />
+                    </div>
                 </Col>
             </Row>
         </React.Fragment>
