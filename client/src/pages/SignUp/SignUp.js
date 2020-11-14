@@ -29,7 +29,6 @@ class SignupForm extends Component {
 				password: this.state.password
 			})
 			.then(response => {
-				console.log(response)
 				if (response.status === 200) {
 					console.log('youre good')
 					this.setState({
@@ -41,9 +40,10 @@ class SignupForm extends Component {
 			})
 	}
 	render() {
+		console.log(this.state.redirectTo)
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
-		}
+		} else {
 		return (
             <Container>
 			<div className="SignupForm">
@@ -73,6 +73,7 @@ class SignupForm extends Component {
 			</div>
             </Container>
 		)
+	}
 	}
 }
 

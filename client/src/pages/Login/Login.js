@@ -40,28 +40,27 @@ class LoginForm extends Component {
                     this.setState({...this.state, isPasswordComboMessageShowing: true})
                 }
                 if (response.status === 200) {
+                    // update the state to redirect to home
+                    this.setState({
+                        redirectTo: '/'
+                    })
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
                         username: response.data.username
                     })
-                    // update the state to redirect to home
-                    this.setState({
-                        redirectTo: '/'
-                    })
                 }
             }).catch(error => {
                 console.log('login error: ')
                 console.log(error);
-                
             })
-    }
-
-    render() {
-        console.log(this.props);
-        if (this.state.redirectTo) {
-            return <Redirect to={this.state.redirectTo} />
-        } else {
+        }
+        
+        render() {
+            console.log(this.state.redirectTo);
+            if (this.state.redirectTo) {
+                return <Redirect to={{ pathname: this.state.redirectTo }} />
+            }
             return (
 				<Container>
                 <div>
@@ -109,7 +108,6 @@ class LoginForm extends Component {
                 </div>
 				</Container>
             )
-        }
     }
 }
 
