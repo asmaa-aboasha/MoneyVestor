@@ -2,34 +2,54 @@ const db = require("../server/models")
 const axios = require("axios");
 
 module.exports = {
-    findOne: (req, res) => {
-        const symbol = req.query.symbol.toString().toUpperCase();
-        let interval = 5;
-        if (req.query.interval && (req.query.interval === "1" || req.query.interval === "5" || req.query.interval === "15" || req.query.interval === "30")) {
-            interval = parseInt(req.query.interval);
+    getStockInfo: (req, res) => { // get intra-day stock data on one or many stocks
+        if (typeof req.query.symbol === 'string') { // find one
+            getOne(req, res);
         }
-        getStockInfo(res, symbol, interval)
-        //add code to check if the local database has recent information
-        // db.Stock.findOne({ symbol: symbol })
-        //     .then(dbStock => {
-        //         const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
-        //         if (dbStock.updatedAt >= oldEntryTime) { // if database stock info was updated within the last 30 min
-        //             console.log("sending db info");
-        //             res.json(dbStock.data);
-        //         } else {
-        //             getStockInfo(res, symbol, interval);
-        //         }
-        //     })
-        //     .catch(err => { // if symbol not found in database
-        //         getStockInfo(res, symbol, interval);
-        //     })
+        if (req.query.symbols) { // find many
+            getMany(req, res);
+        }
+    },
+
+    getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
+        let symbolArray = req.query.symbols//.replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").toUpperCase().split(","); // this isn't necessary
+        let stocks = await symbolArray.map(async symbol => {
+            const request = await axios.get(
+                `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${process.env.avKey}`
+            );
+            const { data } = await request;
+            return data;
+        })
+
+        Promise.all(stocks)
+            .then(values => {
+                res.json(values);
+            })
+            .catch(err => {
+                console.log(err);
+                res.json({ error: err });
+            })
+    },
+
+    getSearchEndpoint: (req, res) => { // search for stock symbols matching a user input
+        let symbol = req.query.symbol;
+        axios.get(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${process.env.avKey}`)
+            .then(result => {
+                res.send(result.data.bestMatches);
+            })
+            .catch(err => {
+                res.json(err);
+                console.log(err);
+            });
     }
 }
 
-
-//helper function
-const getStockInfo = (res, symbol, interval) => {
-    //if not, make a new request
+const getOne = (req, res) => {
+    const symbol = req.query.symbol.toString().toUpperCase();
+    let interval = 5;
+    if (req.query.interval && (req.query.interval === "1" || req.query.interval === "5" || req.query.interval === "15" || req.query.interval === "30")) {
+        interval = parseInt(req.query.interval);
+    }
     axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&apikey=${process.env.avKey}`)
         .then(result => {
             res.send(result.data);
