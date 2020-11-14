@@ -10,5 +10,10 @@
 
 .search-bar{
     position: fixed;
-    right: 0 !important;
+    right: 75px !important;
+}
+
+.search-btn{
+    position: fixed;
+    right: 10px !important;
 }
