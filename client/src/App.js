@@ -34,13 +34,13 @@ class App extends Component {
   getUser() {
     axios.get('/api/user/').then(response => {
       console.log('Get user response: ')
-      console.log(response.data)
+      // console.log(response.data) password can be viewed if this isn't commented out
       if (response.data.user) {
         console.log('Get User: There is a user saved in the server session: ')
-
+        console.log(response.data)
         this.setState({
           loggedIn: true,
-          username: response.data.user.username
+          username: response.data.user
         })
       } else {
         console.log('Get user: no user');
@@ -52,7 +52,12 @@ class App extends Component {
     })
   }
 
+  logoutUser () {
+    axios.get('/api/logout');
+  }
+
   render() {
+    console.log(this.state);
     return (
       <Router>
         <div>
@@ -79,6 +84,15 @@ class App extends Component {
             <NavItem href="/saved">
               Saved
           </NavItem>
+            <NavItem href="/login">
+              Login
+            </NavItem>
+            <NavItem href="/signup">
+              SignUp
+            </NavItem>
+            <NavItem href="/" onClick={this.logoutUser}>
+              Logout
+            </NavItem>
 
           </Navbar>
           <Switch>
