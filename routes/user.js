@@ -4,7 +4,7 @@ const User = require('../server/models/user')
 const passport = require('../server/passport')
 
 router.post('/', (req, res) => {
-    console.log('user signup');
+    // console.log('user signup');
 
     const { username, password } = req.body
     // ADD VALIDATION
@@ -32,8 +32,8 @@ router.post('/', (req, res) => {
 
 // this route is just used to get the user basic info
 router.get('/api/user', (req, res, next) => {
-	console.log('===== user!!======')
-	console.log(req.user)
+	// console.log('===== user!!======')
+	// console.log(req.user)
 	if (req.user) {
 		return res.json({ user: req.user })
 	} else {
@@ -49,17 +49,17 @@ router.get('/api/logout', (req, res) => {
 router.post(
 	'/api/login',
 	function(req, res, next) {
-		console.log(req.body)
-		console.log('================')
+		// console.log(req.body)
+		// console.log('================')
 		next()
 	},
 	passport.authenticate('local'),
 	(req, res) => {
-		console.log('POST to /login')
+		// console.log('POST to /login')
 		const user = JSON.parse(JSON.stringify(req.user)) // hack
 		const cleanUser = Object.assign({}, user)
 		if (cleanUser.local) {
-			console.log(`Deleting ${cleanUser.local.password}`)
+			// console.log(`Deleting ${cleanUser.local.password}`)
 			delete cleanUser.local.password
 		}
 		res.json({ user: cleanUser })
@@ -78,12 +78,11 @@ router.post('/logout', (req, res) => {
 
 router.post('/api/signup', (req, res) => {
 	const { username, password } = req.body
-	console.log(password);
+	// console.log(password);
 	// ADD VALIDATION
-	console.log("HIT SIGNUP");
 	User.create({ 'local.username': username, 'local.password' : password, funds: 10000 }, (err, userMatch) => {
-		console.log(err);
-		console.log(userMatch)
+		// console.log(err);
+		// console.log(userMatch)
 		if (userMatch) {
 			return res.json({
 				error: `Sorry, already a user with the username: ${username}`

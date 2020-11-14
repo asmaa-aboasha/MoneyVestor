@@ -43,7 +43,7 @@ class App extends Component {
           username: response.data.user
         })
       } else {
-        console.log('Get user: no user');
+        // console.log('Get user: no user');
         this.setState({
           loggedIn: false,
           username: null
