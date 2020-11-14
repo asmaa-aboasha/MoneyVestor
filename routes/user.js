@@ -41,6 +41,11 @@ router.get('/api/user', (req, res, next) => {
 	}
 })
 
+router.get('/api/logout', (req, res) => {
+	req.logout()
+	res.redirect('/')
+})
+
 router.post(
 	'/api/login',
 	function(req, res, next) {

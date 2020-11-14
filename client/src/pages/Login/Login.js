@@ -9,7 +9,8 @@ class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
-            redirectTo: null
+            redirectTo: null,
+            isPasswordComboMessageShowing: false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -35,7 +36,9 @@ class LoginForm extends Component {
             })
             .then(response => {
                 console.log('login response: ')
-                console.log(response)
+                if(response.status === 401) {  
+                    this.setState({...this.state, isPasswordComboMessageShowing: true})
+                }
                 if (response.status === 200) {
                     // update App.js state
                     this.props.updateUser({
@@ -57,7 +60,7 @@ class LoginForm extends Component {
     render() {
         console.log(this.props);
         if (this.state.redirectTo) {
-            return <Redirect to={{ pathname: "/" }} />
+            return <Redirect to={this.state.redirectTo} />
         } else {
             return (
 				<Container>
@@ -65,6 +68,7 @@ class LoginForm extends Component {
                     <h4>Login</h4>
                     <form className="form-horizontal">
                         <div className="form-group">
+                            {this.state.isPasswordComboMessageShowing && <div>Password combo bad</div>  }
                             <div className="col-1 col-ml-auto">
                                 <label className="form-label" htmlFor="username">Username</label>
                             </div>
