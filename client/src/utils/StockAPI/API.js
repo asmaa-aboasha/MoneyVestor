@@ -809,6 +809,7 @@ const API = {
 =======
     getStockData: (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15', '30', or '60' for those number of minutes
         return axios.get("/api/stock", { params: { symbol: symbol, interval: interval } });
+<<<<<<< HEAD
         // let object;
         // if (symbol === 'IBM') {
         //     object = {
@@ -2954,6 +2955,8 @@ const API = {
         // }
         // return object
 >>>>>>> converting code to handle api response instead of dummy data
+=======
+>>>>>>> saving to rebase master
     }
 };
 

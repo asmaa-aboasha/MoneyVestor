@@ -2,6 +2,7 @@ const db = require("../server/models")
 const axios = require("axios");
 
 module.exports = {
+<<<<<<< HEAD
     getStockInfo: (req, res) => { // get intra-day stock data on one or many stocks
         if (typeof req.query.symbol === 'string') { // find one
             getOne(req, res);
@@ -50,6 +51,36 @@ const getOne = (req, res) => {
     if (req.query.interval && (req.query.interval === "1" || req.query.interval === "5" || req.query.interval === "15" || req.query.interval === "30")) {
         interval = parseInt(req.query.interval);
     }
+=======
+    findOne: (req, res) => {
+        const symbol = req.query.symbol.toString().toUpperCase();
+        let interval = 5;
+        if (req.query.interval && (req.query.interval === "1" || req.query.interval === "5" || req.query.interval === "15" || req.query.interval === "30")) {
+            interval = parseInt(req.query.interval);
+        }
+        getStockInfo(res, symbol, interval)
+        //add code to check if the local database has recent information
+        // db.Stock.findOne({ symbol: symbol })
+        //     .then(dbStock => {
+        //         const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
+        //         if (dbStock.updatedAt >= oldEntryTime) { // if database stock info was updated within the last 30 min
+        //             console.log("sending db info");
+        //             res.json(dbStock.data);
+        //         } else {
+        //             getStockInfo(res, symbol, interval);
+        //         }
+        //     })
+        //     .catch(err => { // if symbol not found in database
+        //         getStockInfo(res, symbol, interval);
+        //     })
+    }
+}
+
+
+//helper function
+const getStockInfo = (res, symbol, interval) => {
+    //if not, make a new request
+>>>>>>> saving to rebase master
     axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&apikey=${process.env.avKey}`)
         .then(result => {
             res.send(result.data);

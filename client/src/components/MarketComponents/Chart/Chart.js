@@ -7,17 +7,17 @@ const Chart = (props) => {
         <div className={styles.chartParent}>
             <ResponsiveLine
                 data={props.data}
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                margin={{ top: 50, right: 110, bottom: 70, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                curve="natural"
+                curve="linear"
                 axisBottom={{
                     orient: 'bottom',
                     tickSize: 2,
                     tickPadding: 5,
                     tickRotation: 65,
                     legend: 'Time of Day',
-                    legendOffset: 55,
+                    legendOffset: 60,
                     legendPosition: 'middle'
                 }}
 

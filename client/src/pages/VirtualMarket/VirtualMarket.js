@@ -60,18 +60,17 @@ const VirtualMarket = () => {
     let chartData = []
     const populateChart = (id) => {
         API.getStockData(id)
-            .then(res =>{
-                console.log(res)
-                formatData(res);
+            .then(res => {
+                console.log(res.data)
+                formatData(res.data);
             })
-        
-
     }
 
     const formatData = (raw) => {
-        
+        chartData=[];
         let id = raw["Meta Data"]["2. Symbol"];
         let rawData = raw["Time Series (5min)"];
+
 
         let data = Object.keys(rawData).map(key => {
             let dateTime = key.split(" ");
@@ -86,13 +85,21 @@ const VirtualMarket = () => {
         })
 
         data.reverse();
+
+        let mid = Math.ceil(data.length / 2)
+        let obj = {
+            left: data.slice(0, mid),
+            right: data.slice(mid)
+        };
+
         let formattedData = {
             "id": id,
             "color": "#000000",
-            "data": data
+            "data": obj.right
         };
 
         chartData.push(formattedData)
+        console.log(chartData)
         setUser({
             name: userObj.name,
             portfolio: userObj.portfolio,
@@ -105,7 +112,7 @@ const VirtualMarket = () => {
     if (userObj.dataDisplay.length) {
         console.log(userObj.dataDisplay)
         chart = (
-            <Chart data={userObj.dataDisplay}/>
+            <Chart axis={userObj.xaxis} data={userObj.dataDisplay} />
         )
     }
     else {
