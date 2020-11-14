@@ -71,3 +71,8 @@
     height: 350px;
     width: 100%;
 }
+
+.info{
+    padding-top: 4%;
+    border-left: 1px solid gray;
+}
