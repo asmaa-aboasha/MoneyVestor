@@ -1,0 +1,29 @@
+.card-one {
+    padding-left: 5%;
+    padding-right: 5%;
+    flex: content;
+    width: '100vw';
+    display: block;
+    
+}
+
+.card-one-content p,img{
+    width: '50vw';
+    
+}
+
+.card-one-content img {
+    position: relative;
+    display: block;
+    width: 50%;
+}
+
+
+
+@media screen and (max-width:575px) {
+    .card-one {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}
