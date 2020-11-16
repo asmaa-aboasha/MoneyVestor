@@ -28,6 +28,13 @@ const API = {
                     initDate: d,
                     initPrice: 1777.44,
                     currPrice: 1777.44
+                },
+                {
+                    stockId: 'TSLA',
+                    shares: 5,
+                    initDate: d,
+                    initPrice: 400.44,
+                    currPrice: 400.44
                 }
             ],
             funds: 1000,
@@ -59,6 +66,7 @@ const API = {
                 })
             }
         }
+        
         return currentValues;
     },
 
