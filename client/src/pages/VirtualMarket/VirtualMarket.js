@@ -6,7 +6,7 @@ import BuySell from '../../components/MarketComponents/BuySell/BuySell';
 import SearchResult from '../../components/MarketComponents/SearchResult/SearchResult';
 import BottomBar from '../../components/MarketComponents/BottomBar/BottomBar'
 import API from '../../utils/StockAPI/API';
-import { Row, Col} from 'react-materialize';
+import { Row, Col } from 'react-materialize';
 import 'materialize-css';
 import './virtualmarket.css';
 // import { set } from 'mongoose';
@@ -26,46 +26,69 @@ const VirtualMarket = () => {
     })
 
     const getUserData = () => {
-        const res = API.getUser()
+        const user = API.getUser()
         setUser({
-            name: res.name,
-            portfolio: res.portfolio,
-            funds: res.funds,
-            position: res.position,
+            name: user.name,
+            portfolio: user.portfolio,
+            funds: user.funds,
+            position: user.position,
             dataDisplay: []
         });
 
         let stocks = [];
-        res.portfolio.forEach(stock => {
+        user.portfolio.forEach(stock => {
             stocks.push(stock.stockId)
         })
+        let portfolio = user.portfolio
         API.getCurrentValues(stocks)
             .then(res => {
-                let portfolio = userObj.portfolio;
-                portfolio.forEach((item,i) =>{
-                    item.currPrice = res[i].price;
-                });
+                console.log(res)
+                if (res.length === stocks.length) {
+                    portfolio.forEach((item, i) => {
+                        item.currPrice = res[i].price;
+                    });
 
-                setUser({
-                    name: userObj.name,
-                    portfolio: portfolio,
-                    funds: userObj.funds,
-                    position: userObj.position,
-                    dataDisplay: []
-                });
-
+                    setUser({
+                        name: user.name,
+                        portfolio: portfolio,
+                        funds: user.funds,
+                        position: user.position,
+                        dataDisplay: []
+                    });
+                }
             })
-
     }
 
     useEffect(() => {
         //this is some rough code here for now
         //eventually, we will need to retreive user data and then update it with the latest prices from API
         getUserData();
+
+        // let stocks = [];
+        // userObj.portfolio.forEach(stock => {
+        //     stocks.push(stock.stockId)
+        // })
+        // API.getCurrentValues(stocks)
+        //     .then(res => {
+        //         if (Array.isArray(res)) {
+        //             let portfolio = userObj.portfolio;
+        //             portfolio.forEach((item, i) => {
+        //                 item.currPrice = res[i].price;
+        //             });
+
+        //             setUser({
+        //                 name: userObj.name,
+        //                 portfolio: portfolio,
+        //                 funds: userObj.funds,
+        //                 position: userObj.position,
+        //                 dataDisplay: []
+        //             });
+        //         }
+        //     })
     }, []);
 
     //loading user info and rendering portfolio
-    
+
 
     let portfolio;
     if (userObj.portfolio.length) {

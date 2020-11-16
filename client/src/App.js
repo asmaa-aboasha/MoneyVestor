@@ -78,12 +78,6 @@ class App extends Component {
               preventScrolling: true
             }}
           >
-            <NavItem href="/">
-              Search
-            </NavItem>
-            <NavItem href="/saved">
-              Saved
-          </NavItem>
             <NavItem href="/login">
               Login
             </NavItem>
