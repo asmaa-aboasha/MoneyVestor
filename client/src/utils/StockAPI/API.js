@@ -62,7 +62,7 @@ const API = {
         return currentValues;
     },
 
-    
+
     // use like this : console.log(API.searchForStocks("BIG")); - also works on corp names!
     // console.log(API.searchForStocks("microsoft"));
     // returns an array of objects of the form 
@@ -73,12 +73,12 @@ const API = {
     //     symbol: "BIIG", 
     //     name: "Somebody else"
     // }]
-    searchForStocks: async (userInput) => { 
-        const response = await axios.get("/api/stock/search", {params: {symbol: userInput}});
+    searchForStocks: async (userInput) => {
+        const response = await axios.get("/api/stock/search", { params: { symbol: userInput } });
         let searchMatches = [];
         for (let i = 0; i < response.data.length; i++) {
             console.log(response.data[i]);
-            if(response.data[i].hasOwnProperty("1. symbol")) {
+            if (response.data[i].hasOwnProperty("1. symbol")) {
                 searchMatches.push({
                     symbol: response.data[i]["1. symbol"],
                     name: response.data[i]["2. name"]
@@ -87,7 +87,7 @@ const API = {
         }
         return searchMatches;
     },
-    getStockData: (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15', '30', or '60' for those number of minutes
+    getStockData: (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15?
         return axios.get("/api/stock", { params: { symbol: symbol, interval: interval } });
     }
 };

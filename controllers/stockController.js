@@ -1,6 +1,9 @@
 const db = require("../server/models")
 const axios = require("axios");
 
+// ZUK4OVNSZVCM05PZ --- key 1
+// 800OEK7GNJUK8IJL --- key 2
+
 module.exports = {
     getStockInfo: (req, res) => { // get intra-day stock data on one or many stocks
         if (typeof req.query.symbol === 'string') { // find one
@@ -10,12 +13,12 @@ module.exports = {
             getMany(req, res);
         }
     },
-
+    
     getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
         let symbolArray = req.query.symbols//.replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").toUpperCase().split(","); // this isn't necessary
         let stocks = await symbolArray.map(async symbol => {
             const request = await axios.get(
-                `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${process.env.avKey}`
+                `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=ZUK4OVNSZVCM05PZ`
             );
             const { data } = await request;
             return data;
@@ -73,7 +76,7 @@ const getMany = async (req, res) => {
     }
     let stocks = await symbols.map(async (symbol,i) => {
         const request = await axios.get(
-            `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&apikey=${process.env.avKey}`
+            `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&apikey=ZUK4OVNSZVCM05PZ`
         );
         const { data } = await request;
         return data;
