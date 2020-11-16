@@ -60,6 +60,9 @@ const getOne = (req, res) => {
         });
 }
 
+// ZUK4OVNSZVCM05PZ --- key 1
+// 800OEK7GNJUK8IJL --- key 2
+
 const getMany = async (req, res) => {
     //req.query.symbol is an array of strings
     let symbolArray = req.query.symbols;//.replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").split(","); //this isn't necessary
@@ -68,7 +71,7 @@ const getMany = async (req, res) => {
     if (req.query.interval && (req.query.interval === "1" || req.query.interval === "5" || req.query.interval === "15" || req.query.interval === "30")) {
         interval = parseInt(req.query.interval);
     }
-    let stocks = await symbols.map(async symbol => {
+    let stocks = await symbols.map(async (symbol,i) => {
         const request = await axios.get(
             `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=${interval}min&apikey=${process.env.avKey}`
         );
