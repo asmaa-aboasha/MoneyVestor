@@ -8,6 +8,7 @@ import axios from 'axios';
 import './App.css';
 import LoginForm from './pages/Login/Login';
 import SignupForm from './pages/SignUp/SignUp';
+import API from './utils/StockAPI/API';
 
 
 class App extends Component {
@@ -32,13 +33,13 @@ class App extends Component {
     this.setState(userObject)
   }
 
-  getUser() {
-    axios.get('/api/user/').then(response => {
+  async getUser() {
+    await axios.get('/api/user/').then(response => {
       // console.log('Get user response: ')
       // console.log(response.data) password can be viewed if this isn't commented out
       if (response.data.user) {
         // console.log('Get User: There is a user saved in the server session: ')
-        console.log(response.data)
+        // console.log(response.data)
         this.setState({
           loggedIn: true,
           username: response.data.user.username,
@@ -55,7 +56,7 @@ class App extends Component {
     })
   }
 
-  logoutUser () {
+  logoutUser() {
     axios.get('/api/logout');
   }
 
@@ -94,7 +95,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/trade" component={VirtualMarket} />
-            <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user}/>} />
+            <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user} />} />
             <Route exact path="/signup" component={SignupForm} />
             <Route component={NoMatch} />
           </Switch>

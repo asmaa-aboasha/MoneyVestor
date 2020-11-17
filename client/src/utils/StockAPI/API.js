@@ -99,7 +99,7 @@ const API = {
     },
 
 
-    updatePortfolio(user, portfolioUpdate) {
+    async updatePortfolio(user, portfolioUpdate) {
         let userCopy = user;
         userCopy.portfolio = portfolioUpdate;
         //this could be changed or streamlined, but I'm not sure how it works on the front end
@@ -126,7 +126,7 @@ const API = {
         //         currPrice: 1777.44
         //     }
         // ]
-        axios.put("/api/user", userCopy)
+        return await axios.put("/api/user", userCopy)
     }
 
 };
