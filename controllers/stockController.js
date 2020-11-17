@@ -15,6 +15,7 @@ module.exports = {
     },
     
     getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
+<<<<<<< HEAD
         let symbolArray = req.query.symbols
         let stocks = await symbolArray.map(async (symbol,i) => {
             let request;
@@ -33,9 +34,23 @@ module.exports = {
             const { data } = await request;
             return data;
         })
+=======
+        let symbolArray = req.query.symbols.replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").toUpperCase().split(","); // this isn't necessary
+        let stocks = symbolArray.map((symbol, index) => {
+            console.log("running index: " + index);
+            axios.get(
+                `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${process.env.avKey}`
+            ).then(response => {
+                console.log(response.data)
+                resolve(response.data);
+            })
+
+        });
+>>>>>>> 972ad30... partial commit
 
         Promise.all(stocks)
             .then(values => {
+                console.log(values)
                 res.json(values);
             })
             .catch(err => {
