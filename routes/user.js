@@ -48,8 +48,11 @@ router.get('/api/logout', (req, res) => {
 
 //update user
 router.put('/api/user', (req, res, next) => {
+	console.log("REQ BODY /api/user");
+	console.log(req.body);
 	User.findOneAndUpdate({ _id: req.body._id }, req.body, {new: true})
 		.then(dbUser => {
+			console.log(dbUser);
 			res.json(dbUser)
 		})
 		.catch(err => {

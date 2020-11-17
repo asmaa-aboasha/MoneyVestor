@@ -99,9 +99,30 @@ const API = {
     },
 
 
-    async updatePortfolio(user, portfolioUpdate) {
+
+    // console.log(API.updatePortfolio(this.state.user, [
+    //     {
+    //       stockId: 'IBM',
+    //       shares: 5,
+    //       initDate: Date.now(),
+    //       initPrice: 129.40,
+    //       currPrice: 114.44
+    //     },
+    //     {
+    //       stockId: 'AAPL',
+    //       shares: 5,
+    //       initDate: Date.now(),
+    //       initPrice: 117.40,
+    //       currPrice: 118.97
+    //     }
+    //   ],
+    //   7000
+    //   )
+    //   )//console.log
+    async updatePortfolio(user, portfolioUpdate, funds) {
         let userCopy = user;
         userCopy.portfolio = portfolioUpdate;
+        userCopy.funds = funds;
         //this could be changed or streamlined, but I'm not sure how it works on the front end
         // userCopy.portfolio = [
         //     {
