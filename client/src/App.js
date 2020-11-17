@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import VirtualMarket from './pages/VirtualMarket/VirtualMarket';
 import Home from './pages/Home/Home';
 import NoMatch from './pages/NoMatch';
@@ -8,6 +8,7 @@ import axios from 'axios';
 import './App.css';
 import LoginForm from './pages/Login/Login';
 import SignupForm from './pages/SignUp/SignUp';
+import API from './utils/StockAPI/API';
 
 
 class App extends Component {
@@ -15,7 +16,8 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: false,
-      username: null
+      username: null,
+      user: {}
     }
 
     this.getUser = this.getUser.bind(this)
@@ -31,33 +33,34 @@ class App extends Component {
     this.setState(userObject)
   }
 
-  getUser() {
-    axios.get('/api/user/').then(response => {
-      console.log('Get user response: ')
+  async getUser() {
+    await axios.get('/api/user/').then(response => {
+      // console.log('Get user response: ')
       // console.log(response.data) password can be viewed if this isn't commented out
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
-        console.log(response.data)
+        // console.log('Get User: There is a user saved in the server session: ')
+        // console.log(response.data)
         this.setState({
           loggedIn: true,
-          username: response.data.user
+          username: response.data.user.username,
+          user: response.data.user
         })
       } else {
         // console.log('Get user: no user');
         this.setState({
           loggedIn: false,
-          username: null
+          username: null,
+          user: {}
         })
       }
     })
   }
 
-  logoutUser () {
+  logoutUser() {
     axios.get('/api/logout');
   }
 
   render() {
-    console.log(this.state);
     return (
       <Router>
         <div>
@@ -92,7 +95,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/trade" component={VirtualMarket} />
-            <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} />} />
+            <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user} />} />
             <Route exact path="/signup" component={SignupForm} />
             <Route component={NoMatch} />
           </Switch>

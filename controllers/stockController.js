@@ -36,6 +36,7 @@ module.exports = {
 
         Promise.all(stocks)
             .then(values => {
+                console.log(values)
                 res.json(values);
             })
             .catch(err => {

@@ -4,36 +4,36 @@ const User = require('../server/models/user')
 const passport = require('../server/passport')
 
 router.post('/', (req, res) => {
-    // console.log('user signup');
+	// console.log('user signup');
 
-    const { username, password } = req.body
-    // ADD VALIDATION
-    User.findOne({ username: username }, (err, user) => {
-        if (err) {
-            console.log('User.js post error: ', err)
-        } else if (user) {
-            res.json({
-                error: `Sorry, already a user with the username: ${username}`
-            })
-        }
-        else {
-            const newUser = new User({
-                username: username,
-                password: password
-            })
-            newUser.save((err, savedUser) => {
-                if (err) return res.json(err)
-                res.json(savedUser)
-            })
-        }
-    })
+	const { username, password } = req.body
+	// ADD VALIDATION
+	User.findOne({ username: username }, (err, user) => {
+		if (err) {
+			console.log('User.js post error: ', err)
+		} else if (user) {
+			res.json({
+				error: `Sorry, already a user with the username: ${username}`
+			})
+		}
+		else {
+			const newUser = new User({
+				username: username,
+				password: password
+			})
+			newUser.save((err, savedUser) => {
+				if (err) return res.json(err)
+				res.json(savedUser)
+			})
+		}
+	})
 })
 
 
 // this route is just used to get the user basic info
 router.get('/api/user', (req, res, next) => {
 	// console.log('===== user!!======')
-	// console.log(req.user)
+	console.log(req.user)
 	if (req.user) {
 		return res.json({ user: req.user })
 	} else {
@@ -46,9 +46,26 @@ router.get('/api/logout', (req, res) => {
 	res.redirect('/')
 })
 
+//update user
+router.put('/api/user', (req, res, next) => {
+	console.log("REQ BODY /api/user");
+	console.log(req.body);
+	User.findOneAndUpdate({ _id: req.body._id }, req.body, {new: true})
+		.then(dbUser => {
+			console.log(dbUser);
+			res.json(dbUser)
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(404).json(err)
+		});
+})
+
+
+
 router.post(
 	'/api/login',
-	function(req, res, next) {
+	function (req, res, next) {
 		// console.log(req.body)
 		// console.log('================')
 		next()
@@ -56,6 +73,7 @@ router.post(
 	passport.authenticate('local'),
 	(req, res) => {
 		// console.log('POST to /login')
+		// console.log(req.user);
 		const user = JSON.parse(JSON.stringify(req.user)) // hack
 		const cleanUser = Object.assign({}, user)
 		if (cleanUser.local) {
@@ -66,7 +84,7 @@ router.post(
 	}
 )
 
-router.post('/logout', (req, res) => {
+router.post('/api/logout', (req, res) => {
 	if (req.user) {
 		req.session.destroy()
 		res.clearCookie('connect.sid') // clean up!
@@ -80,7 +98,7 @@ router.post('/api/signup', (req, res) => {
 	const { username, password } = req.body
 	// console.log(password);
 	// ADD VALIDATION
-	User.create({ 'local.username': username, 'local.password' : password, funds: 10000 }, (err, userMatch) => {
+	User.create({ 'local.username': username, 'local.password': password, funds: 10000 }, (err, userMatch) => {
 		// console.log(err);
 		// console.log(userMatch)
 		if (userMatch) {

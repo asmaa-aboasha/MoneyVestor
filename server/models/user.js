@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
-    //id provided by MongoDB
+	//id provided by MongoDB
 	firstName: { type: String, unique: false },
 	lastName: { type: String, unique: false },
 	local: {
@@ -14,20 +14,21 @@ const userSchema = new Schema({
 		googleId: { type: String, required: false }
 	},
 	photos: [],
-    //login: {}, // double check the passport project to figure out what goes here
-    portfolio: [{
-        stockId: {type: String, trim: true}, //maybe add 'uppercase: true
-        shares: {type: Number, min: 0},
-        initDate: {type: Date, default: Date.now}, //min: Date.now, this may not work correctly for updates
-        initPrice: {type: Number, min: 0}, //price at investment
-        currPrice: {type: Number, min: 0} //price at most recent update
-    }],
-    funds: {type: Number, required: true}, //default: 10000
-    position: {type: Number} //leaderboard position
+	portfolio: [
+		{
+			stockId: { type: String, trim: true }, //maybe add 'uppercase: true
+			shares: { type: Number, min: 0 },
+			initDate: { type: Date, default: Date.now }, //min: Date.now, this may not work correctly for updates
+			initPrice: { type: Number, min: 0 }, //price at investment
+			currPrice: { type: Number, min: 0 } //price at most recent update
+		}
+	],
+	funds: { type: Number, required: true }, //default: 10000
+	position: { type: Number } //leaderboard position
 });
 
 userSchema.methods = {
-	checkPassword: function(inputPassword) {
+	checkPassword: function (inputPassword) {
 		console.log(inputPassword, this.local.password)
 		return bcrypt.compareSync(inputPassword, this.local.password)
 	},
@@ -36,7 +37,7 @@ userSchema.methods = {
 	}
 }
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
 	if (!this.local.password) {
 		console.log('NO PASSWORD PROVIDED!')
 		next()

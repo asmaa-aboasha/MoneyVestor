@@ -85,7 +85,6 @@ const API = {
         const response = await axios.get("/api/stock/search", { params: { symbol: userInput } });
         let searchMatches = [];
         for (let i = 0; i < response.data.length; i++) {
-            console.log(response.data[i]);
             if (response.data[i].hasOwnProperty("1. symbol")) {
                 searchMatches.push({
                     symbol: response.data[i]["1. symbol"],
@@ -97,7 +96,60 @@ const API = {
     },
     getStockData: (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15?
         return axios.get("/api/stock", { params: { symbol: symbol, interval: interval } });
+    },
+
+
+
+    // console.log(API.updatePortfolio(this.state.user, [
+    //     {
+    //       stockId: 'IBM',
+    //       shares: 5,
+    //       initDate: Date.now(),
+    //       initPrice: 129.40,
+    //       currPrice: 114.44
+    //     },
+    //     {
+    //       stockId: 'AAPL',
+    //       shares: 5,
+    //       initDate: Date.now(),
+    //       initPrice: 117.40,
+    //       currPrice: 118.97
+    //     }
+    //   ],
+    //   7000
+    //   )
+    //   )//console.log
+    async updatePortfolio(user, portfolioUpdate, funds) {
+        let userCopy = user;
+        userCopy.portfolio = portfolioUpdate;
+        userCopy.funds = funds;
+        //this could be changed or streamlined, but I'm not sure how it works on the front end
+        // userCopy.portfolio = [
+        //     {
+        //         stockId: 'IBM',
+        //         shares: 5,
+        //         initDate: Date.now(),
+        //         initPrice: 129.40,
+        //         currPrice: 114.44
+        //     },
+        //     {
+        //         stockId: 'AAPL',
+        //         shares: 5,
+        //         initDate: Date.now(),
+        //         initPrice: 117.40,
+        //         currPrice: 118.97
+        //     },
+        //     {
+        //         stockId: 'GOOG',
+        //         shares: 5,
+        //         initDate: Date.now(),
+        //         initPrice: 1777.44,
+        //         currPrice: 1777.44
+        //     }
+        // ]
+        return await axios.put("/api/user", userCopy)
     }
+
 };
 
 export default API;

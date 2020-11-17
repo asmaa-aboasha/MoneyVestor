@@ -4,10 +4,14 @@ let MONGO_URL
 const MONGO_LOCAL_URL =  'mongodb+srv://lwalker37:amv12v@cluster0.p7jgf.mongodb.net/Cluster0?retryWrites=true&w=majority' //
 
 if (process.env.MONGODB_URI) {
-	mongoose.connect(process.env.MONGODB_URI)
+	mongoose.connect(process.env.MONGODB_URI, {
+		'useFindAndModify': false
+	})
 	MONGO_URL = process.env.MONGODB_URI
 } else {
-	mongoose.connect(MONGO_LOCAL_URL) // local mongo url
+	mongoose.connect(MONGO_LOCAL_URL, {
+		'useFindAndModify': false
+	}) // local mongo url
 	MONGO_URL = MONGO_LOCAL_URL
 }
 

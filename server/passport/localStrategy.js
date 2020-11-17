@@ -8,6 +8,7 @@ const strategy = new LocalStrategy(
 	function(username, password, done) {
 		User.findOne({ 'local.username': username }, (err, userMatch) => {
 			if (err) {
+				console.log("ERROR: " + err);
 				return done(err)
 			}
 			if (!userMatch) {
@@ -15,6 +16,7 @@ const strategy = new LocalStrategy(
 				return done(null, false, { message: 'Incorrect username' })
 			}
 			if (!userMatch.checkPassword(password)) {
+				console.log("Incorrect password")
 				return done(null, false, { message: 'Incorrect password' })
 			}
 			return done(null, userMatch)
