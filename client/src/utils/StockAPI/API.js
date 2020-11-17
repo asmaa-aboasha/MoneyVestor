@@ -85,10 +85,6 @@ const API = {
         const response = await axios.get("/api/stock/search", { params: { symbol: userInput } });
         let searchMatches = [];
         for (let i = 0; i < response.data.length; i++) {
-<<<<<<< HEAD
-            console.log(response.data[i]);
-=======
->>>>>>> 6e3867c... partial update for fixing portfolio throughput
             if (response.data[i].hasOwnProperty("1. symbol")) {
                 searchMatches.push({
                     symbol: response.data[i]["1. symbol"],
@@ -103,32 +99,33 @@ const API = {
     },
 
 
-    updatePort(e, user) {
-        e.preventDefault();
+    updatePortfolio(user, portfolioUpdate) {
         let userCopy = user;
-        userCopy.portfolio = [
-            {
-                stockId: 'IBM',
-                shares: 5,
-                initDate: Date.now(),
-                initPrice: 129.40,
-                currPrice: 114.44
-            },
-            {
-                stockId: 'AAPL',
-                shares: 5,
-                initDate: Date.now(),
-                initPrice: 117.40,
-                currPrice: 118.97
-            },
-            {
-                stockId: 'GOOG',
-                shares: 5,
-                initDate: Date.now(),
-                initPrice: 1777.44,
-                currPrice: 1777.44
-            }
-        ]
+        userCopy.portfolio = portfolioUpdate;
+        //this could be changed or streamlined, but I'm not sure how it works on the front end
+        // userCopy.portfolio = [
+        //     {
+        //         stockId: 'IBM',
+        //         shares: 5,
+        //         initDate: Date.now(),
+        //         initPrice: 129.40,
+        //         currPrice: 114.44
+        //     },
+        //     {
+        //         stockId: 'AAPL',
+        //         shares: 5,
+        //         initDate: Date.now(),
+        //         initPrice: 117.40,
+        //         currPrice: 118.97
+        //     },
+        //     {
+        //         stockId: 'GOOG',
+        //         shares: 5,
+        //         initDate: Date.now(),
+        //         initPrice: 1777.44,
+        //         currPrice: 1777.44
+        //     }
+        // ]
         axios.put("/api/user", userCopy)
     }
 
