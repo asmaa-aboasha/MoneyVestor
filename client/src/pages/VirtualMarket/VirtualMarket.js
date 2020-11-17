@@ -60,31 +60,7 @@ const VirtualMarket = () => {
     }
 
     useEffect(() => {
-        //this is some rough code here for now
-        //eventually, we will need to retreive user data and then update it with the latest prices from API
         getUserData();
-
-        // let stocks = [];
-        // userObj.portfolio.forEach(stock => {
-        //     stocks.push(stock.stockId)
-        // })
-        // API.getCurrentValues(stocks)
-        //     .then(res => {
-        //         if (Array.isArray(res)) {
-        //             let portfolio = userObj.portfolio;
-        //             portfolio.forEach((item, i) => {
-        //                 item.currPrice = res[i].price;
-        //             });
-
-        //             setUser({
-        //                 name: userObj.name,
-        //                 portfolio: portfolio,
-        //                 funds: userObj.funds,
-        //                 position: userObj.position,
-        //                 dataDisplay: []
-        //             });
-        //         }
-        //     })
     }, []);
 
     //loading user info and rendering portfolio
@@ -184,7 +160,25 @@ const VirtualMarket = () => {
     }
 
     const handleSubmit = () => {
+        API.searchForStocks(searchObj.q.trim())
+            .then(res =>{
+                let searchRes = {
+                    symbol: res.symbol,
+                    name: res.name
+                }
+                setSearch({
+                    res: searchRes,
+                    q: searchObj.q
+                })
+                displaySearch()
+            })
+    }
 
+    const displaySearch = () => {
+        API.getCurrentValues([searchObj.res.symbol])
+            .then(res => {
+                console.log(res)
+            })
     }
 
     return (
@@ -215,7 +209,8 @@ const VirtualMarket = () => {
                 </Col>
                 <Col s={3}>
                     <div className='info'>
-                        <SearchResult />
+                        <SearchResult 
+                            symbol={'test'}/>
                         <BuySell />
                     </div>
                 </Col>

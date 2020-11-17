@@ -85,7 +85,6 @@ const API = {
         const response = await axios.get("/api/stock/search", { params: { symbol: userInput } });
         let searchMatches = [];
         for (let i = 0; i < response.data.length; i++) {
-            console.log(response.data[i]);
             if (response.data[i].hasOwnProperty("1. symbol")) {
                 searchMatches.push({
                     symbol: response.data[i]["1. symbol"],
@@ -93,7 +92,7 @@ const API = {
                 })
             }
         }
-        return searchMatches;
+        return searchMatches[0];
     },
     getStockData: (symbol, interval) => { //symbol is like "IBM", interval is '1', '5', '15?
         return axios.get("/api/stock", { params: { symbol: symbol, interval: interval } });

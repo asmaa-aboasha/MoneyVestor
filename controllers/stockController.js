@@ -19,13 +19,11 @@ module.exports = {
         let stocks = await symbolArray.map(async (symbol,i) => {
             let request;
             if((i + 1) % 2 === 0){
-                console.log('even')
                 request = await axios.get(
                     `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=ZUK4OVNSZVCM05PZ`
                 );
             }
             else{
-                console.log('odd')
                 request = await axios.get(
                     `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=G855DLYIXHNV7PJ9`
                 );
