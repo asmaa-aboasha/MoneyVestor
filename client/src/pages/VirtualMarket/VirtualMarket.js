@@ -42,7 +42,6 @@ const VirtualMarket = () => {
         let portfolio = user.portfolio
         API.getCurrentValues(stocks)
             .then(res => {
-                console.log(res)
                 if (res.length === stocks.length) {
                     portfolio.forEach((item, i) => {
                         item.currPrice = res[i].price;
@@ -60,31 +59,7 @@ const VirtualMarket = () => {
     }
 
     useEffect(() => {
-        //this is some rough code here for now
-        //eventually, we will need to retreive user data and then update it with the latest prices from API
         getUserData();
-
-        // let stocks = [];
-        // userObj.portfolio.forEach(stock => {
-        //     stocks.push(stock.stockId)
-        // })
-        // API.getCurrentValues(stocks)
-        //     .then(res => {
-        //         if (Array.isArray(res)) {
-        //             let portfolio = userObj.portfolio;
-        //             portfolio.forEach((item, i) => {
-        //                 item.currPrice = res[i].price;
-        //             });
-
-        //             setUser({
-        //                 name: userObj.name,
-        //                 portfolio: portfolio,
-        //                 funds: userObj.funds,
-        //                 position: userObj.position,
-        //                 dataDisplay: []
-        //             });
-        //         }
-        //     })
     }, []);
 
     //loading user info and rendering portfolio
@@ -184,7 +159,56 @@ const VirtualMarket = () => {
     }
 
     const handleSubmit = () => {
+        API.searchForStocks(searchObj.q.trim())
+            .then(res => {
+                console.log(res)
+                let searchRes = {
+                    symbol: res.symbol,
+                    name: res.name
+                }
+                setSearch({
+                    res: searchRes,
+                    q: searchObj.q
+                })
+                console.log(searchObj.res)
+                displaySearch()
+            })
+    }
 
+    const displaySearch = () => {
+        API.getCurrentValues([searchObj.res.symbol])
+            .then(response => {
+                let searchRes = {
+                    symbol: searchObj.res.symbol,
+                    name: searchObj.res.name,
+                    price: response[0].price,
+                    change: response[0].change,
+                    delta: response[0].delta
+                };
+
+                setSearch({
+                    res: searchRes,
+                    q: searchObj.q
+                })
+            })
+    }
+    let searchResult;
+    if (searchObj.res) {
+        searchResult = (
+            <SearchResult
+                symbol={searchObj.res.symbol}
+                name={searchObj.res.name}
+                price={searchObj.res.price}
+                change={searchObj.res.change}
+                delta={searchObj.res.delta} 
+                result={true}/>
+        )
+    }
+    else {
+        searchResult = (
+            <SearchResult
+                result={false} />
+        )
     }
 
     return (
@@ -215,7 +239,7 @@ const VirtualMarket = () => {
                 </Col>
                 <Col s={3}>
                     <div className='info'>
-                        <SearchResult />
+                        {searchResult}
                         <BuySell />
                     </div>
                 </Col>

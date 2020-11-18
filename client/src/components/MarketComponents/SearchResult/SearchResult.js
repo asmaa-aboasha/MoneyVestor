@@ -4,15 +4,27 @@ import styles from './searchresult.module.css';
 import 'materialize-css';
 
 const SearchResult = (props) => {
-    
-    return(
-        <React.Fragment>
+    let rendered;
+    if (props.result) {
+        rendered = (
             <Row className={styles.res}>
-                <div className={styles.symbol}>AAPL <span className={styles.mrkt}>NASDAQ</span></div>
-                <div className={styles.companyName}>Apple</div>
-                <div className={styles.currPrice}>118.97</div>
-                <div className={styles.delta}>+1.57 <span>+1.34%</span></div>
+                <div className={styles.symbol}> {props.symbol} </div>
+                <div className={styles.companyName}> {props.name} </div>
+                <div className={styles.currPrice}> {props.price} </div>
+                <div className={styles.delta}>{props.change}<span>{props.delta}%</span></div>
             </Row>
+        )
+    }
+    else{
+        rendered= (
+            <Row className={styles.res}>
+                <h6>Search for a stock!</h6>
+            </Row>
+        )
+    }
+    return (
+        <React.Fragment>
+            {rendered}
         </React.Fragment>
     )
 }
