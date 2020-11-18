@@ -62,7 +62,9 @@ const API = {
                 const globalQuote = response.data[i]["Global Quote"];
                 currentValues.push({
                     symbol: globalQuote["01. symbol"],
-                    price: parseFloat(globalQuote["05. price"])
+                    price: parseFloat(globalQuote["05. price"]),
+                    change: parseFloat(globalQuote["09. change"]),
+                    delta: parseFloat(globalQuote["10. change percent"])
                 })
             }
         }

@@ -42,7 +42,6 @@ const VirtualMarket = () => {
         let portfolio = user.portfolio
         API.getCurrentValues(stocks)
             .then(res => {
-                console.log(res)
                 if (res.length === stocks.length) {
                     portfolio.forEach((item, i) => {
                         item.currPrice = res[i].price;
@@ -161,7 +160,8 @@ const VirtualMarket = () => {
 
     const handleSubmit = () => {
         API.searchForStocks(searchObj.q.trim())
-            .then(res =>{
+            .then(res => {
+                console.log(res)
                 let searchRes = {
                     symbol: res.symbol,
                     name: res.name
@@ -170,15 +170,45 @@ const VirtualMarket = () => {
                     res: searchRes,
                     q: searchObj.q
                 })
+                console.log(searchObj.res)
                 displaySearch()
             })
     }
 
     const displaySearch = () => {
         API.getCurrentValues([searchObj.res.symbol])
-            .then(res => {
-                console.log(res)
+            .then(response => {
+                let searchRes = {
+                    symbol: searchObj.res.symbol,
+                    name: searchObj.res.name,
+                    price: response[0].price,
+                    change: response[0].change,
+                    delta: response[0].delta
+                };
+
+                setSearch({
+                    res: searchRes,
+                    q: searchObj.q
+                })
             })
+    }
+    let searchResult;
+    if (searchObj.res) {
+        searchResult = (
+            <SearchResult
+                symbol={searchObj.res.symbol}
+                name={searchObj.res.name}
+                price={searchObj.res.price}
+                change={searchObj.res.change}
+                delta={searchObj.res.delta} 
+                result={true}/>
+        )
+    }
+    else {
+        searchResult = (
+            <SearchResult
+                result={false} />
+        )
     }
 
     return (
@@ -209,8 +239,7 @@ const VirtualMarket = () => {
                 </Col>
                 <Col s={3}>
                     <div className='info'>
-                        <SearchResult 
-                            symbol={'test'}/>
+                        {searchResult}
                         <BuySell />
                     </div>
                 </Col>
