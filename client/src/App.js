@@ -27,6 +27,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getUser()
+    //console.log(API.getCurrentValues(["PG","BIG","MSFT","AAPL"]))//,"C","DAL","GOOG", "SNAP", "FB", "TSLA", "SO", "COST"]));
   }
 
   updateUser(userObject) {

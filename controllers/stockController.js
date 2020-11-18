@@ -1,5 +1,6 @@
 const db = require("../server/models")
 const axios = require("axios");
+const Stock = require("../server/models/stock")
 
 // ZUK4OVNSZVCM05PZ --- key 1
 // 800OEK7GNJUK8IJL --- key 2
@@ -13,35 +14,6 @@ module.exports = {
             getMany(req, res);
         }
     },
-    
-    getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
-        let symbolArray = req.query.symbols
-        let stocks = await symbolArray.map(async (symbol,i) => {
-            let request;
-            if((i + 1) % 2 === 0){
-                request = await axios.get(
-                    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=ZUK4OVNSZVCM05PZ`
-                );
-            }
-            else{
-                request = await axios.get(
-                    `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=G855DLYIXHNV7PJ9`
-                );
-            }
-            const { data } = await request;
-            return data;
-        })
-
-        Promise.all(stocks)
-            .then(values => {
-                console.log(values)
-                res.json(values);
-            })
-            .catch(err => {
-                console.log(err);
-                res.json({ error: err });
-            })
-    },
 
     getSearchEndpoint: (req, res) => { // search for stock symbols matching a user input
         let symbol = req.query.symbol;
@@ -53,7 +25,45 @@ module.exports = {
                 res.json(err);
                 console.log(err);
             });
+    },
+
+    getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
+        try {
+            let rollingIndex = -1;
+            const searches = req.query.symbols.map(async (x, i) => { // create array of data to return
+                const dbStock = await db.models.Stock.find({ symbol: x })
+                const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
+                if (dbStock.length === 0 || (dbStock.hasOwnProperty("updatedAt") && (dbStock.updatedAt >= oldEntryTime))) {
+                    rollingIndex++;
+                    return searchStockDelay(x, rollingIndex);
+                }
+                return dbStock[0].data;
+            })
+            const results = await Promise.all(searches);
+            return res.send(results);
+        } catch (e) {
+            console.error(e); // log internal error
+            return next(new Error('Internal Server Error')); // return public error to client
+        }
     }
+}
+
+
+
+
+function searchStockDelay(symbol, index) {
+    return new Promise((resolve, reject) => {
+        // use async / await here too :)
+        setTimeout(async () => {
+            try {
+                const result = await axios.get(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=ZUK4OVNSZVCM05PZ`);
+                await db.models.Stock.findOneAndUpdate({ symbol: symbol }, { data: result.data }, { upsert: true });
+                resolve(result.data);
+            } catch (e) {
+                return reject(e);
+            }
+        }, (12100 * index));
+    })
 }
 
 const getOne = (req, res) => {
