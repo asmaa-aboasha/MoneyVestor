@@ -68,7 +68,7 @@ const API = {
                 })
             }
         }
-        
+
         return currentValues;
     },
 
