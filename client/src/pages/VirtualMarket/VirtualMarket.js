@@ -165,12 +165,11 @@ const VirtualMarket = () => {
         })
         API.searchForStocks(searchObj.q.trim())
             .then(response => {
-                console.log('response:',response)
+                
                 let searchRes = {
                     symbol: response.symbol,
                     name: response.name
                 }
-                console.log('to be set', searchRes)
                 setSearch({
                     res: searchRes,
                     q: searchObj.q
@@ -180,7 +179,7 @@ const VirtualMarket = () => {
     }
 
     const displaySearch = (res) => {
-        console.log('display search 1:', res);
+       
         const stockName = res.name;
         if(res){
             API.getCurrentValues([res.symbol])
@@ -201,7 +200,7 @@ const VirtualMarket = () => {
                 })
                 
             })
-            console.log(searchObj)
+            populateChart(res.symbol)
         }
         else{
             setSearch({
