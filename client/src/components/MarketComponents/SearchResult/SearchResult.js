@@ -6,12 +6,20 @@ import 'materialize-css';
 const SearchResult = (props) => {
     let rendered;
     if (props.result) {
+        let fontColor;
+        if(props.change >= 0){
+            fontColor = styles.pos
+        }
+        else{
+            fontColor = styles.neg
+        }
+        console.log(props.name)
         rendered = (
             <Row className={styles.res}>
                 <div className={styles.symbol}> {props.symbol} </div>
                 <div className={styles.companyName}> {props.name} </div>
-                <div className={styles.currPrice}> {props.price} </div>
-                <div className={styles.delta}>{props.change}<span>{props.delta}%</span></div>
+                <div className={`${styles.currPrice} ${fontColor}`}> {props.price} </div>
+                <div className={`${styles.delta} ${fontColor}`}>{props.change}<span className={styles.pct}>{props.delta}%</span></div>
             </Row>
         )
     }

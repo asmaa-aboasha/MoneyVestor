@@ -159,28 +159,35 @@ const VirtualMarket = () => {
     }
 
     const handleSubmit = () => {
+        setSearch({
+            res: null,
+            q: searchObj.q
+        })
         API.searchForStocks(searchObj.q.trim())
-            .then(res => {
-                console.log(res)
+            .then(response => {
+                
                 let searchRes = {
-                    symbol: res.symbol,
-                    name: res.name
+                    symbol: response.symbol,
+                    name: response.name
                 }
                 setSearch({
                     res: searchRes,
                     q: searchObj.q
                 })
-                console.log(searchObj.res)
-                displaySearch()
+                displaySearch(searchRes)
             })
     }
 
-    const displaySearch = () => {
-        API.getCurrentValues([searchObj.res.symbol])
+    const displaySearch = (res) => {
+       
+        const stockName = res.name;
+        if(res){
+            API.getCurrentValues([res.symbol])
             .then(response => {
+                
                 let searchRes = {
-                    symbol: searchObj.res.symbol,
-                    name: searchObj.res.name,
+                    symbol: response[0].symbol,
+                    name: stockName,
                     price: response[0].price,
                     change: response[0].change,
                     delta: response[0].delta
@@ -188,12 +195,23 @@ const VirtualMarket = () => {
 
                 setSearch({
                     res: searchRes,
-                    q: searchObj.q
+                    q: searchObj.q,
+                    searched: true
                 })
+                
             })
+            populateChart(res.symbol)
+        }
+        else{
+            setSearch({
+                res: searchObj.res,
+                q: searchObj.q,
+                searched: false
+            })
+        }
     }
     let searchResult;
-    if (searchObj.res) {
+    if (searchObj.searched) {
         searchResult = (
             <SearchResult
                 symbol={searchObj.res.symbol}
