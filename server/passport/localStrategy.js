@@ -21,6 +21,9 @@ const strategy = new LocalStrategy(
 			}
 			return done(null, userMatch)
 		})
+		.catch(err => {
+			console.log(err);
+		})
 	}
 )
 
