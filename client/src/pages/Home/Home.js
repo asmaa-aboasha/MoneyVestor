@@ -1,9 +1,14 @@
-import React from 'react';
+import React from "react";
+import Headline from '../../components/Headline/Headline';
+import VisualContent from '../../components/VisualContent/VisualContent';
 
-const Home = () =>{
-    return(
-        <div>Home Page</div>
-    )
-}
+const Home = () => {
+  return (
+    <React.Fragment>
+      <Headline />
+      <VisualContent />
+    </React.Fragment>
+  );
+};
 
 export default Home;
