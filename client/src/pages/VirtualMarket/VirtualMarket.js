@@ -11,7 +11,7 @@ import 'materialize-css';
 import './virtualmarket.css';
 // import { set } from 'mongoose';
 
-const VirtualMarket = () => {
+const VirtualMarket = ({ getUser, user }) => {
     const [userObj, setUser] = useState({
         name: '',
         portfolio: [],
@@ -35,36 +35,40 @@ const VirtualMarket = () => {
     })
 
     const getUserData = () => {
-        const user = API.getUser()
-        setUser({
-            name: user.name,
-            portfolio: user.portfolio,
-            funds: user.funds,
-            position: user.position,
-            dataDisplay: []
-        });
+        //const user = API.getUser()
+        console.log("APP USER")
+        console.log(user);
+        if (Object.keys(user).length) {
+            setUser({
+                name: user.name,
+                portfolio: user.portfolio,
+                funds: user.funds,
+                position: user.position,
+                dataDisplay: []
+            });
 
-        let stocks = [];
-        user.portfolio.forEach(stock => {
-            stocks.push(stock.stockId)
-        })
-        let portfolio = user.portfolio
-        API.getCurrentValues(stocks)
-            .then(res => {
-                if (res.length === stocks.length) {
-                    portfolio.forEach((item, i) => {
-                        item.currPrice = res[i].price;
-                    });
-
-                    setUser({
-                        name: user.name,
-                        portfolio: portfolio,
-                        funds: user.funds,
-                        position: user.position,
-                        dataDisplay: []
-                    });
-                }
+            let stocks = [];
+            user.portfolio.forEach(stock => {
+                stocks.push(stock.stockId)
             })
+            let portfolio = user.portfolio
+            API.getCurrentValues(stocks)
+                .then(res => { // this might have to do some stock symbol matching validation
+                    if (res.length === stocks.length) {
+                        portfolio.forEach((item, i) => {
+                            item.currPrice = res[i].price;
+                        });
+
+                        setUser({
+                            name: user.name,
+                            portfolio: portfolio,
+                            funds: user.funds,
+                            position: user.position,
+                            dataDisplay: []
+                        });
+                    }
+                })
+        }
     }
 
     useEffect(() => {
@@ -307,7 +311,7 @@ const VirtualMarket = () => {
             let transactionAmount;
             if (transaction.side === 'BUY') {
                 transactionAmount = (transaction.shares * transaction.sharePrice);
-                let newFunds = Math.round(100*(userObj.funds - transactionAmount))/100;
+                let newFunds = Math.round(100 * (userObj.funds - transactionAmount)) / 100;
                 let stocks = userObj.portfolio.map(item => {
                     return item.stockId;
                 })
@@ -323,6 +327,8 @@ const VirtualMarket = () => {
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
                     })
+                    //ADDED BACKEND UPDATE PORTFOLIO CALL
+                    API.updatePortfolio(user, portfolio, newFunds);
                 }
                 else {
                     let portfolio = userObj.portfolio;
@@ -341,21 +347,23 @@ const VirtualMarket = () => {
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
                     })
+                    //ADDED BACKEND UPDATE PORTFOLIO CALL
+                    API.updatePortfolio(user, portfolio, newFunds);
                 }
             }
             else if (transaction.side === 'SELL') {
                 transactionAmount = (transaction.shares * transaction.sharePrice);
-                let newFunds = Math.round(100*(userObj.funds + transactionAmount))/100;
+                let newFunds = Math.round(100 * (userObj.funds + transactionAmount)) / 100;
                 let stocks = userObj.portfolio.map(item => {
                     return item.stockId;
                 })
-                if(transactionAmount === 0){
+                if (transactionAmount === 0) {
                     return
                 }
-                else if(transaction.shares === transaction.maxShares){
+                else if (transaction.shares === transaction.maxShares) {
                     let i = stocks.indexOf(transaction.symbol);
                     let portfolio = userObj.portfolio;
-                    portfolio.splice(i,1);
+                    portfolio.splice(i, 1);
 
                     setUser({
                         name: userObj.name,
@@ -364,8 +372,10 @@ const VirtualMarket = () => {
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
                     })
+                    //ADDED BACKEND UPDATE PORTFOLIO CALL
+                    API.updatePortfolio(user, portfolio, newFunds);
                 }
-                else{
+                else {
                     let i = stocks.indexOf(transaction.symbol)
                     let newShares = parseInt(userObj.portfolio[i].shares) - parseInt(transaction.shares);
                     let portfolio = userObj.portfolio;
@@ -378,6 +388,8 @@ const VirtualMarket = () => {
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
                     })
+                    //ADDED BACKEND UPDATE PORTFOLIO CALL
+                    API.updatePortfolio(user, portfolio, newFunds);
                 }
             }
         }

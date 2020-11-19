@@ -29,18 +29,23 @@ module.exports = {
 
     getCurrentValues: async (req, res) => { // get current values of user's portfolio objects
         try {
-            let rollingIndex = -1;
-            const searches = req.query.symbols.map(async (x, i) => { // create array of data to return
-                const dbStock = await db.models.Stock.find({ symbol: x })
-                const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
-                if (dbStock.length === 0 || (dbStock.hasOwnProperty("updatedAt") && (dbStock.updatedAt >= oldEntryTime))) {
-                    rollingIndex++;
-                    return searchStockDelay(x, rollingIndex);
-                }
-                return dbStock[0].data;
-            })
-            const results = await Promise.all(searches);
-            return res.send(results);
+            if(req.query.symbols){
+                let rollingIndex = -1;
+                const searches = req.query.symbols.map(async (x, i) => { // create array of data to return
+                    const dbStock = await db.models.Stock.find({ symbol: x })
+                    const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
+                    if (dbStock.length === 0 || (dbStock.hasOwnProperty("updatedAt") && (dbStock.updatedAt >= oldEntryTime))) {
+                        rollingIndex++;
+                        return searchStockDelay(x, rollingIndex);
+                    }
+                    return dbStock[0].data;
+                })
+                const results = await Promise.all(searches);
+                return res.send(results);
+            } else {
+                return [];
+            }
+            
         } catch (e) {
             console.error(e); // log internal error
             return next(new Error('Internal Server Error')); // return public error to client

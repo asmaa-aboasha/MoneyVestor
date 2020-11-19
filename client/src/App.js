@@ -95,7 +95,7 @@ class App extends Component {
           </Navbar>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/trade" component={VirtualMarket} />
+            <Route exact path="/trade" component={() => <VirtualMarket getUser={this.getUser} user={this.state.user} />} />
             <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user} />} />
             <Route exact path="/signup" component={SignupForm} />
             <Route component={NoMatch} />
