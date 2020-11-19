@@ -1,0 +1,45 @@
+.buttons{
+    margin-top: 3%;
+}
+
+.buyOrSell{
+    font-size: small;
+    padding-left: 5%;
+}
+
+.buyBtn{
+    font-weight: 600;
+    color: green;
+    padding:5%;
+    padding-left: 10%;
+    background-color: lightgray;
+}
+.buySide{
+    font-weight: 600;
+    color: white;
+    padding:5%;
+    padding-left: 10%;
+    background-color: green;
+}
+
+.sellBtn{
+    font-weight: 600;
+    color: red;
+    padding:5%;
+    padding-right: 10%;
+    background-color: lightgray;
+}
+
+.sellSide{
+    font-weight: 600;
+    color: white;
+    padding:5%;
+    padding-right: 10%;
+    background-color: red;
+}
+
+.alertMsg{
+    padding-top:5%;
+    font-weight: 600;
+    color: red;
+}

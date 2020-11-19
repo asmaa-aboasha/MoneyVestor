@@ -25,6 +25,15 @@ const VirtualMarket = () => {
         q: ''
     })
 
+    const [transaction, setTransaction] = useState({
+        symbol: null,
+        side: null,
+        shares: 0,
+        sharePrice: 0,
+        maxShares: 0,
+        _alert: false
+    })
+
     const getUserData = () => {
         const user = API.getUser()
         setUser({
@@ -92,6 +101,13 @@ const VirtualMarket = () => {
     let chart;
     let chartData = []
     const populateChart = (id) => {
+        setUser({
+            name: userObj.name,
+            portfolio: userObj.portfolio,
+            funds: userObj.funds,
+            position: userObj.position,
+            dataDisplay: []
+        })
         API.getStockData(id)
             .then(res => {
                 formatData(res.data);
@@ -165,7 +181,7 @@ const VirtualMarket = () => {
         })
         API.searchForStocks(searchObj.q.trim())
             .then(response => {
-                
+
                 let searchRes = {
                     symbol: response.symbol,
                     name: response.name
@@ -179,30 +195,40 @@ const VirtualMarket = () => {
     }
 
     const displaySearch = (res) => {
-       
-        const stockName = res.name;
-        if(res){
-            API.getCurrentValues([res.symbol])
-            .then(response => {
-                
-                let searchRes = {
-                    symbol: response[0].symbol,
-                    name: stockName,
-                    price: response[0].price,
-                    change: response[0].change,
-                    delta: response[0].delta
-                };
 
-                setSearch({
-                    res: searchRes,
-                    q: searchObj.q,
-                    searched: true
+        const stockName = res.name;
+        if (res) {
+            API.getCurrentValues([res.symbol])
+                .then(response => {
+
+                    let searchRes = {
+                        symbol: response[0].symbol,
+                        name: stockName,
+                        price: response[0].price,
+                        change: response[0].change,
+                        delta: response[0].delta
+                    };
+
+                    setSearch({
+                        res: searchRes,
+                        q: searchObj.q,
+                        searched: true
+                    })
+
+                    setTransaction({
+                        symbol: response[0].symbol,
+                        side: null,
+                        shares: 0,
+                        sharePrice: response[0].price,
+                        maxShares: 0,
+                        _alert: false
+                    })
+                    console.log(transaction)
+
                 })
-                
-            })
             populateChart(res.symbol)
         }
-        else{
+        else {
             setSearch({
                 res: searchObj.res,
                 q: searchObj.q,
@@ -210,6 +236,7 @@ const VirtualMarket = () => {
             })
         }
     }
+
     let searchResult;
     if (searchObj.searched) {
         searchResult = (
@@ -218,8 +245,8 @@ const VirtualMarket = () => {
                 name={searchObj.res.name}
                 price={searchObj.res.price}
                 change={searchObj.res.change}
-                delta={searchObj.res.delta} 
-                result={true}/>
+                delta={searchObj.res.delta}
+                result={true} />
         )
     }
     else {
@@ -229,6 +256,101 @@ const VirtualMarket = () => {
         )
     }
 
+    // functions for handling the buy/sell feature
+    const setSide = (e) => {
+        let side = e.target.childNodes['0'].data;
+        let maxShares;
+        let alert = false;
+        if (side === 'BUY') {
+            maxShares = Math.floor(userObj.funds / transaction.sharePrice);
+        }
+        else if (side === 'SELL') {
+            let stocks = userObj.portfolio.map(item => {
+                return item.stockId;
+            })
+
+            if (stocks.includes(transaction.symbol)) {
+                let i = stocks.indexOf(transaction.symbol);
+                maxShares = userObj.portfolio[i].shares;
+            }
+            else {
+                maxShares = 0;
+                alert = true;
+            }
+        }
+        setTransaction({
+            symbol: transaction.symbol,
+            side: side,
+            shares: transaction.shares,
+            sharePrice: transaction.sharePrice,
+            maxShares: maxShares,
+            _alert: alert
+        })
+        console.log(transaction)
+    }
+
+    const saveTransactionAmount = (e) => {
+        setTransaction({
+            symbol: transaction.symbol,
+            side: transaction.side,
+            shares: e.target.value,
+            sharePrice: transaction.sharePrice,
+            maxShares: transaction.maxShares,
+            _alert: transaction._alert
+        })
+    }
+
+    const handleTransaction = (e) => {
+        e.preventDefault()
+        if (transaction.side) {
+            console.log(`${transaction.side} ${transaction.shares} ${transaction.symbol}`);
+            let transactionAmount;
+            if (transaction.side === 'BUY') {
+                transactionAmount = (transaction.shares * transaction.sharePrice);
+                let newFunds = userObj.funds - transactionAmount;
+                let stocks = userObj.portfolio.map(item => {
+                    return item.stockId;
+                })
+                if (stocks.includes(transaction.symbol)) {
+                    let i = stocks.indexOf(transaction.symbol);
+                    let newShares = parseInt(userObj.portfolio[i].shares) + parseInt(transaction.shares);
+                    let portfolio = userObj.portfolio;
+                    portfolio[i].shares = newShares
+                    setUser({
+                        name: userObj.name,
+                        portfolio: portfolio,
+                        funds: newFunds,
+                        position: userObj.position,
+                        dataDisplay: userObj.dataDisplay
+                    })
+                }
+                else {
+                    let portfolio = userObj.portfolio;
+                    let newStock = {
+                        stockId: transaction.symbol,
+                        shares: transaction.shares,
+                        initDate: new Date(),
+                        initPrice: transaction.sharePrice,
+                        currPrice: transaction.sharePrice
+                    }
+                    portfolio.push(newStock);
+                    setUser({
+                        name: userObj.name,
+                        portfolio: portfolio,
+                        funds: newFunds,
+                        position: userObj.position,
+                        dataDisplay: userObj.dataDisplay
+                    })
+                }
+            }
+            else if (transaction.side === 'SELL') {
+
+            }
+        }
+        else {
+            console.log('indicate buy or sell!')
+        }
+    }
     return (
         <React.Fragment>
             <Row>
@@ -258,7 +380,13 @@ const VirtualMarket = () => {
                 <Col s={3}>
                     <div className='info'>
                         {searchResult}
-                        <BuySell />
+                        <BuySell
+                            alert={transaction._alert}
+                            side={transaction.side}
+                            setSide={(e) => setSide(e)}
+                            maxShares={transaction.maxShares}
+                            change={(e) => saveTransactionAmount(e)}
+                            submit={(e) => handleTransaction(e)} />
                     </div>
                 </Col>
             </Row>

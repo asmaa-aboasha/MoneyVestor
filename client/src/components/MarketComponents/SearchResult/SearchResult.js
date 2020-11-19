@@ -13,7 +13,7 @@ const SearchResult = (props) => {
         else{
             fontColor = styles.neg
         }
-        console.log(props.name)
+        
         rendered = (
             <Row className={styles.res}>
                 <div className={styles.symbol}> {props.symbol} </div>
