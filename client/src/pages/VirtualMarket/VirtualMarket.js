@@ -307,7 +307,7 @@ const VirtualMarket = () => {
             let transactionAmount;
             if (transaction.side === 'BUY') {
                 transactionAmount = (transaction.shares * transaction.sharePrice);
-                let newFunds = userObj.funds - transactionAmount;
+                let newFunds = Math.round(100*(userObj.funds - transactionAmount))/100;
                 let stocks = userObj.portfolio.map(item => {
                     return item.stockId;
                 })
@@ -344,7 +344,41 @@ const VirtualMarket = () => {
                 }
             }
             else if (transaction.side === 'SELL') {
+                transactionAmount = (transaction.shares * transaction.sharePrice);
+                let newFunds = Math.round(100*(userObj.funds + transactionAmount))/100;
+                let stocks = userObj.portfolio.map(item => {
+                    return item.stockId;
+                })
+                if(transactionAmount === 0){
+                    return
+                }
+                else if(transaction.shares === transaction.maxShares){
+                    let i = stocks.indexOf(transaction.symbol);
+                    let portfolio = userObj.portfolio;
+                    portfolio.splice(i,1);
 
+                    setUser({
+                        name: userObj.name,
+                        portfolio: portfolio,
+                        funds: newFunds,
+                        position: userObj.position,
+                        dataDisplay: userObj.dataDisplay
+                    })
+                }
+                else{
+                    let i = stocks.indexOf(transaction.symbol)
+                    let newShares = parseInt(userObj.portfolio[i].shares) - parseInt(transaction.shares);
+                    let portfolio = userObj.portfolio;
+                    portfolio[i].shares = newShares
+
+                    setUser({
+                        name: userObj.name,
+                        portfolio: portfolio,
+                        funds: newFunds,
+                        position: userObj.position,
+                        dataDisplay: userObj.dataDisplay
+                    })
+                }
             }
         }
         else {
