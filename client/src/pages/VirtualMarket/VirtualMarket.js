@@ -50,11 +50,12 @@ const VirtualMarket = ({ getUser, user }) => {
 
             let stocks = [];
             user.portfolio.forEach(stock => {
-                stocks.push(stock.stockIdF)
+                stocks.push(stock.stockId)
             })
             let portfolio = user.portfolio
             API.getCurrentValues(stocks)
                 .then(res => { // this might have to do some stock symbol matching validation
+                    
                     if (res.length === stocks.length) {
                         portfolio.forEach((item, i) => {
                             item.currPrice = res[i].price;
