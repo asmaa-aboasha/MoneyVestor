@@ -33,7 +33,7 @@ module.exports = {
                 let rollingIndex = -1;
                 const searches = req.query.symbols.map(async (x, i) => { // create array of data to return
                     const dbStock = await db.models.Stock.find({ symbol: x })
-                    const oldEntryTime = new Date(Date.now() - (30 * 60 * 1000)); // returns ISO date of 30 minutes ago
+                    const oldEntryTime = new Date(Date.now() - (5 * 60 * 1000)); // returns ISO date of 5 minutes ago
                     if (dbStock.length === 0 || (dbStock.hasOwnProperty("updatedAt") && (dbStock.updatedAt >= oldEntryTime))) {
                         rollingIndex++;
                         return searchStockDelay(x, rollingIndex);

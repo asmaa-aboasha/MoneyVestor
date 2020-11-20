@@ -68,6 +68,8 @@ const VirtualMarket = ({ getUser, user }) => {
                             position: user.position,
                             dataDisplay: []
                         });
+                        //ADDED BACKEND UPDATE PORTFOLIO CALL
+                        API.updatePortfolio(user, portfolio, user.funds); //user is a prop passed from App.js - userObj is the VirtualMarket state var
                     }
                 })
         }
