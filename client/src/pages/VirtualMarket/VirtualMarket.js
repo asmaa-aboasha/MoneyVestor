@@ -22,7 +22,8 @@ const VirtualMarket = ({ getUser, user }) => {
 
     const [searchObj, setSearch] = useState({
         res: null,
-        q: ''
+        q: '',
+        inputValue: ''
     })
 
     const [transaction, setTransaction] = useState({
@@ -49,7 +50,7 @@ const VirtualMarket = ({ getUser, user }) => {
 
             let stocks = [];
             user.portfolio.forEach(stock => {
-                stocks.push(stock.stockId)
+                stocks.push(stock.stockIdF)
             })
             let portfolio = user.portfolio
             API.getCurrentValues(stocks)
@@ -174,7 +175,8 @@ const VirtualMarket = ({ getUser, user }) => {
     const handleSearch = (event) => {
         setSearch({
             res: searchObj.res,
-            q: event.target.value
+            q: event.target.value,
+            inputValue: event.target.value
         })
     }
 
@@ -192,7 +194,8 @@ const VirtualMarket = ({ getUser, user }) => {
                 }
                 setSearch({
                     res: searchRes,
-                    q: searchObj.q
+                    q: searchObj.q,
+                    inputValue: ''
                 })
                 displaySearch(searchRes)
             })
@@ -421,6 +424,7 @@ const VirtualMarket = ({ getUser, user }) => {
                         pos={userObj.position}
                         change={(e) => handleSearch(e)}
                         click={() => handleSubmit()}
+                        value={searchObj.inputValue}
                     />
                 </Col>
                 <Col s={3}>
