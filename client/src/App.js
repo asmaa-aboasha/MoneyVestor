@@ -97,7 +97,7 @@ class App extends Component {
             </NavItem>
 
           </Navbar> */}
-          <Navbar />
+          <Navbar loggedIn={this.state.loggedIn} logoutUser={this.logoutUser}/>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/investing-basics" component={InvestingBasics} />

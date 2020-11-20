@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 
-const navbar = () => {
+const navbar = (props) => {
     return (   
         <header className="navbar">
             <div className="navbar-navigation">
@@ -10,15 +10,15 @@ const navbar = () => {
                     <ul>
                         <li className="items"><a href="/how-it-works">How it works</a></li>
                         <li className="items"><a href="/investing-basics">Beginner's guide</a></li>
-                        <li className="items"><a href="/trade"></a>Trade</li>
+                        {props.loggedIn && <li className="items"><a href="/trade">Trade</a></li>}
                     </ul>
                 </div>
                 <div className="spacer" />
                 <div className="navbar-links">
                     <ul>
-                        <li className="links"><a href="/login">Login</a></li>
-                        <li className="links"><a href="/">Log Out</a></li>
-                        <li><button class="button"><a href="/signup">Sign Up</a></button></li>
+                        {!props.loggedIn && <li className="links"><a href="/login">Login</a></li>}
+                        {props.loggedIn && <li className="links"><a href="/" onClick={props.logoutUser}>Log Out</a></li>}
+                        {!props.loggedIn && <li><button class="button"><a href="/signup">Sign Up</a></button></li>}
                     </ul>
                 </div>
             </div>
