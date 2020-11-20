@@ -130,7 +130,7 @@ const InvestingBasics = () => {
                 <p>
                 click continue to learn how it works. 
                 </p>
-                <button className="continue-button"><a href="/learn-how-it-works">continue</a></button>
+                <button className="continue-button"><a href="/how-it-works">continue</a></button>
                 <i className="fas fa-level-down-alt"></i>
             </div>
             </Carousel>
