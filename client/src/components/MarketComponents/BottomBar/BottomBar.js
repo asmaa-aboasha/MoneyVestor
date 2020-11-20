@@ -19,6 +19,7 @@ const BottomBar = (props) => {
                     id="stock-search"
                     label="Search for stocks..."
                     onChange={props.change}
+                    value={props.value}
                 />
 
 
