@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import VirtualMarket from './pages/VirtualMarket/VirtualMarket';
 import Home from './pages/Home/Home';
+import InvestingBasics from './pages/InvestingBasics/InvestingBasics';
 import NoMatch from './pages/NoMatch';
 import { Navbar, NavItem, Icon } from 'react-materialize';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -95,6 +96,7 @@ class App extends Component {
           </Navbar>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/investing-basics" component={InvestingBasics} />
             <Route exact path="/trade" component={() => <VirtualMarket getUser={this.getUser} user={this.state.user} />} />
             <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user} />} />
             <Route exact path="/signup" component={SignupForm} />
