@@ -42,7 +42,7 @@ const BuySell = (props) => {
                         <form onSubmit={props.submit} >
                             <label>
                                 Shares:
-                                <input min={0} max={props.maxShares} onChange={props.change} type="number" />
+                                <input min={0} max={props.maxShares} onChange={props.change} type="number" value={props.value} />
                             </label>
                             <label>
                                 Max Shares: {props.maxShares}

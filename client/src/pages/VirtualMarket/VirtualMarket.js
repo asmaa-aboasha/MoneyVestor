@@ -32,7 +32,8 @@ const VirtualMarket = ({ getUser, user }) => {
         shares: 0,
         sharePrice: 0,
         maxShares: 0,
-        _alert: false
+        _alert: false,
+        inputValue: ''
     })
 
     const getUserData = () => {
@@ -50,12 +51,11 @@ const VirtualMarket = ({ getUser, user }) => {
 
             let stocks = [];
             user.portfolio.forEach(stock => {
-                stocks.push(stock.stockId)
+                stocks.push(stock.stockIdF)
             })
             let portfolio = user.portfolio
             API.getCurrentValues(stocks)
                 .then(res => { // this might have to do some stock symbol matching validation
-                    
                     if (res.length === stocks.length) {
                         portfolio.forEach((item, i) => {
                             item.currPrice = res[i].price;
@@ -331,6 +331,11 @@ const VirtualMarket = ({ getUser, user }) => {
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
                     })
+                    setTransaction({
+                        ...transaction,
+                        maxShares: Math.floor(newFunds / transaction.sharePrice),
+                        inputValue: ''
+                    })
                     //ADDED BACKEND UPDATE PORTFOLIO CALL
                     API.updatePortfolio(user, portfolio, newFunds);
                 }
@@ -350,6 +355,11 @@ const VirtualMarket = ({ getUser, user }) => {
                         funds: newFunds,
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
+                    })
+                    setTransaction({
+                        ...transaction,
+                        maxShares: Math.floor(newFunds / transaction.sharePrice),
+                        inputValue: ''
                     })
                     //ADDED BACKEND UPDATE PORTFOLIO CALL
                     API.updatePortfolio(user, portfolio, newFunds);
@@ -376,6 +386,11 @@ const VirtualMarket = ({ getUser, user }) => {
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
                     })
+                    setTransaction({
+                        ...transaction,
+                        maxShares: Math.floor(newFunds / transaction.sharePrice),
+                        inputValue: ''
+                    })
                     //ADDED BACKEND UPDATE PORTFOLIO CALL
                     API.updatePortfolio(user, portfolio, newFunds);
                 }
@@ -391,6 +406,11 @@ const VirtualMarket = ({ getUser, user }) => {
                         funds: newFunds,
                         position: userObj.position,
                         dataDisplay: userObj.dataDisplay
+                    })
+                    setTransaction({
+                        ...transaction,
+                        maxShares: Math.floor(newFunds / transaction.sharePrice),
+                        inputValue: ''
                     })
                     //ADDED BACKEND UPDATE PORTFOLIO CALL
                     API.updatePortfolio(user, portfolio, newFunds);
@@ -435,6 +455,7 @@ const VirtualMarket = ({ getUser, user }) => {
                             alert={transaction._alert}
                             side={transaction.side}
                             setSide={(e) => setSide(e)}
+                            value={transaction.inputValue}
                             maxShares={transaction.maxShares}
                             change={(e) => saveTransactionAmount(e)}
                             submit={(e) => handleTransaction(e)} />
