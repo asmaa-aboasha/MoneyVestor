@@ -21,6 +21,7 @@ const InvestingBasics = () => {
                 <p>
                 Discover the <b>5 step checklist</b> that will help you start your investment journey.
                 </p>
+                <i className="fas fa-level-down-alt"></i>
             </div>
             </Carousel>
 
