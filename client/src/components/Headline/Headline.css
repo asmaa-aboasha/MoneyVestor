@@ -18,15 +18,15 @@
 }
 
 .start-button {
-    height: 45px;
-    width: 150px;
+    height: 55px;
+    width: 170px;
     margin-top: 15px;
     border-radius: 35px;
     border: none;
     text-align: center;
     display: inline-block;
     background-color: teal;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .start-button a {

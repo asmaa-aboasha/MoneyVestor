@@ -5,7 +5,6 @@ import { Row, Col, Carousel, Checkbox } from 'react-materialize';
 const InvestingBasics = () => {
     return (
         <React.Fragment>
-
             <Carousel
             carouselId="Carousel-2"
             className="white-text"
