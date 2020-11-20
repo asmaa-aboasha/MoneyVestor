@@ -116,6 +116,26 @@ const InvestingBasics = () => {
             </div>
             </Row>
 
+            <Carousel
+            carouselId="Carousel-2"
+            className="white-text"
+            options={{
+                fullWidth: true,
+                indicators: true
+            }}
+            >
+            <div className="red">
+                <h1>
+                Next up: virtual stock market simulator.
+                </h1>
+                <p>
+                click continue to learn how it works. 
+                </p>
+                <button className="continue-button"><a href="/learn-how-it-works">continue</a></button>
+                <i className="fas fa-level-down-alt"></i>
+            </div>
+            </Carousel>
+
         </React.Fragment>
        
     );
