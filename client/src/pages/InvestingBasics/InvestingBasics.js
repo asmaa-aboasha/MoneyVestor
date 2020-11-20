@@ -5,7 +5,6 @@ import { Row, Col, Carousel, Checkbox } from 'react-materialize';
 const InvestingBasics = () => {
     return (
         <React.Fragment>
-
             <Carousel
             carouselId="Carousel-2"
             className="white-text"
@@ -21,6 +20,7 @@ const InvestingBasics = () => {
                 <p>
                 Discover the <b>5 step checklist</b> that will help you start your investment journey.
                 </p>
+                <i className="fas fa-level-down-alt"></i>
             </div>
             </Carousel>
 
@@ -114,6 +114,26 @@ const InvestingBasics = () => {
                 </div>
             </div>
             </Row>
+
+            <Carousel
+            carouselId="Carousel-2"
+            className="white-text"
+            options={{
+                fullWidth: true,
+                indicators: true
+            }}
+            >
+            <div className="red">
+                <h1>
+                Next up: virtual stock market simulator.
+                </h1>
+                <p>
+                click continue to learn how it works. 
+                </p>
+                <button className="continue-button"><a href="/how-it-works">continue</a></button>
+                <i className="fas fa-level-down-alt"></i>
+            </div>
+            </Carousel>
 
         </React.Fragment>
        

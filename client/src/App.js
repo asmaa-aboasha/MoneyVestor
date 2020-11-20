@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import VirtualMarket from './pages/VirtualMarket/VirtualMarket';
 import Home from './pages/Home/Home';
+import SignupForm from './pages/SignUp/SignUp';
+import LoginForm from './pages/Login/Login';
 import InvestingBasics from './pages/InvestingBasics/InvestingBasics';
+import Tutorial from './pages/Tutorial/Tutorial';
+import VirtualMarket from './pages/VirtualMarket/VirtualMarket';
 import NoMatch from './pages/NoMatch';
-import { Navbar, NavItem, Icon } from 'react-materialize';
+import Navbar from './components/Navbar/Navbar';
+// import { Navbar, NavItem, Icon } from 'react-materialize';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 import './App.css';
-import LoginForm from './pages/Login/Login';
-import SignupForm from './pages/SignUp/SignUp';
+
 import API from './utils/StockAPI/API';
 
 
@@ -66,7 +69,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar
+          {/* <Navbar
             alignLinks="right"
             brand={<a className="brand-logo" href="/">This is a placeholder Nav</a>}
             id="mobile-nav"
@@ -93,10 +96,12 @@ class App extends Component {
               Logout
             </NavItem>
 
-          </Navbar>
+          </Navbar> */}
+          <Navbar />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/investing-basics" component={InvestingBasics} />
+            <Route exact path="/how-it-works" component={Tutorial} />
             <Route exact path="/trade" component={() => <VirtualMarket getUser={this.getUser} user={this.state.user} />} />
             <Route exact path="/login" component={() => <LoginForm updateUser={this.updateUser} user={this.state.user} />} />
             <Route exact path="/signup" component={SignupForm} />

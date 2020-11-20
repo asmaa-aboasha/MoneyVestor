@@ -1,9 +1,9 @@
 .headline-container {
     width: 40%;
-    padding-left: 5%;
+    padding-left: 8%;
     display: inline-block;
     vertical-align: top;
-    margin-top: 15%;
+    margin-top: 14%;
 }
 
 #headline {
@@ -18,15 +18,15 @@
 }
 
 .start-button {
-    height: 45px;
-    width: 150px;
+    height: 55px;
+    width: 170px;
     margin-top: 15px;
     border-radius: 35px;
     border: none;
     text-align: center;
     display: inline-block;
     background-color: teal;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .start-button a {

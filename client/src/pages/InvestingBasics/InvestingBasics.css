@@ -54,3 +54,30 @@
 .red b {
     font-size: 40px;
 }
+
+.continue-button {
+    height: 55px;
+    width: 180px;
+    float: right;
+    margin-top: 62px;
+    margin-right: -178px;
+    border-radius: 35px;
+    border: none;
+    background-color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.continue-button a {
+    color: teal;
+}
+
+.continue-button a:hover,
+.continue-button a:active {
+    color: orange;
+}
+
+.fas {
+    font-size: 200px;
+    float: right;
+}

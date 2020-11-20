@@ -1,0 +1,94 @@
+.navbar {
+    width: 98%;
+    background: white;
+}
+
+.navbar-navigation {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+@media screen and (max-width:575px) {
+    .navbar-navigation {
+        flex-direction: column;
+    }
+}
+
+.navbar-logo {
+    margin-top: 15px;
+}
+
+.navbar-logo a {
+    margin-left: 25px;
+    color: teal;
+    text-decoration: none;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.navbar-items ul {
+    list-style: none;
+    display: flex;
+    margin-right: 25px;
+    margin-left: 20px;
+}
+
+.navbar-items li {
+    padding: 0 1rem;
+}
+
+.items {
+    margin-top: 30px;
+}
+
+.items a {
+    color: teal;
+    font-size: 16px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.navbar-links ul {
+    list-style: none;
+    display: flex;
+    margin-right: 25px;
+}
+
+.navbar-links li {
+    padding: 0 1rem;
+}
+
+.links {
+    margin-top: 30px;
+}
+
+.links a {
+    color: teal;
+    font-size: 16px;
+}
+
+.button {
+    padding: 0px;
+    margin-top: 15px;
+    margin-right: 30px;
+    height: 45px;
+    width: 130%;
+    border-radius: 35px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    background-color: teal;
+    font-size: 16px;
+}
+
+.button a {
+    color: white; 
+}
+
+.button a:hover,
+.button a:active {
+    color: orange;
+}

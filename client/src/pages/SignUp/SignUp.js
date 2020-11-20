@@ -53,9 +53,9 @@ class SignupForm extends Component {
 		return (
             <Container>
 			<div className="SignupForm">
-				<h1>Signup form</h1>
+				<h4>Welcome to MoneyVestor</h4>
 				{this.state.noBlankInputs && <div>All fields must have inputs</div>  }
-				{this.state.passwordsMustMatch && <div>Password field and Confirm Password field are not Matching</div>  }
+				{this.state.passwordsMustMatch && <div>Password field and Confirm Password field are not matching</div>  }
 				<label htmlFor="username">Username: </label>
 				<input
 					type="text"
@@ -77,7 +77,7 @@ class SignupForm extends Component {
 					value={this.state.confirmPassword}
 					onChange={this.handleChange}
 				/>
-				<button onClick={this.handleSubmit}>Sign up</button>
+				<button onClick={this.handleSubmit}>Sign Up</button>
 			</div>
             </Container>
 		)
