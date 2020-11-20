@@ -2,6 +2,8 @@
     width: 40%;
     padding-left: 5%;
     display: inline-block;
+    vertical-align: top;
+    margin-top: 15%;
 }
 
 #headline {
