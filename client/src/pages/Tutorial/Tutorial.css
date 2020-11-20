@@ -1,0 +1,42 @@
+#Carousel-1 {
+    margin-top: 10%;
+}
+
+.container-main {
+    background-color: #0c2431;
+}
+
+#title {
+    font-size: 70px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 120px;
+}
+
+.arrow-right i {
+    margin-right: 80px;
+}
+
+.arrow-left i {
+    float: left;
+    margin-left: 80px;
+    margin-top: 140px;
+}
+
+.container-left {
+    background-color: teal;
+}
+
+.container-left h1 {
+    margin-left: 40px;
+}
+
+.container-right {
+    background-color: #0c2431;
+}
+
+.container-right h1 {
+    float: right;
+    margin-right: 40px;
+}
