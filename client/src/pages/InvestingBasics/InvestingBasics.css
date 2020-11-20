@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.card-title-left {
+    font-weight: 500;
+}
+
+.card-one-content p {
+    width: 100%;
+    display: inline-block;
+    margin-top: 0px;
+    font-size: 22px;
+    line-height: 40px;
+}
+
+.card-one-content img {
+    margin: 20px auto;
+    display: block;
+    width: 80%;
+    max-width: 300px;
+}
+
+.card-one-content {
+    margin-top: 100px;
+}
+
+.card-title-left {
+    font-size: 40px;
+    width: 100%;
+}
+
+#Carousel-2 {
+    margin-top: 80px;
+}
+
+.red {
+    background-color: teal !important;
+    
+}
+
+.red h1 {
+    margin-left: 40px;
+}
+
+.red p {
+    font-size: 30px !important;
+    float: right;
+    margin-right: 50px;
+}
+
+.red b {
+    font-size: 40px;
+}
