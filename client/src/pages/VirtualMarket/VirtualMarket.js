@@ -374,7 +374,7 @@ const VirtualMarket = ({ getUser, user }) => {
                 if (transactionAmount === 0) {
                     return
                 }
-                else if (transaction.shares === transaction.maxShares) {
+                else if (parseInt(transaction.shares) === parseInt(transaction.maxShares)) {
                     let i = stocks.indexOf(transaction.symbol);
                     let portfolio = userObj.portfolio;
                     portfolio.splice(i, 1);
