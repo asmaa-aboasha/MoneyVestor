@@ -51,7 +51,7 @@ const VirtualMarket = ({ getUser, user }) => {
 
             let stocks = [];
             user.portfolio.forEach(stock => {
-                stocks.push(stock.stockIdF)
+                stocks.push(stock.stockId)
             })
             let portfolio = user.portfolio
             API.getCurrentValues(stocks)
