@@ -21,15 +21,17 @@ MoneyVestor has two main goals:\
 Introducing investing concepts in an uncluttered easy to understand way, and\
 Providing users with the freedom to start 'investing' in a no-risk environment.
 
-### Tutorials: 
-### Investing Basics: http://moneyvestor.herokuapp.com/investing-basics \
+## Tutorials: 
+## Investing Basics: http://moneyvestor.herokuapp.com/investing-basics \
 [![Investing Basics](https://github.com/asmaa-aboasha/MoneyVestor/blob/master/README-assets/investing-basics.png "Investing Basics Tutorial")](http://moneyvestor.herokuapp.com/investing-basics)
 
-### How-It-Works - Virtual Market: http://moneyvestor.herokuapp.com/how-it-works \
+
+## How-It-Works - Virtual Market: http://moneyvestor.herokuapp.com/how-it-works \
 [![Virtual Market Tutorial](https://github.com/asmaa-aboasha/MoneyVestor/blob/master/README-assets/how-it-works.png "Virtual Markets Tutorial")](http://moneyvestor.herokuapp.com/how-it-works)
 
-### Virtual Market: 
-[![Virtual Market](https://github.com/asmaa-aboasha/MoneyVestor/blob/master/README-assets/trade.png "Virtual Markets")]
+
+## Virtual Market: 
+![Virtual Market](https://github.com/asmaa-aboasha/MoneyVestor/blob/master/README-assets/trade.png "Virtual Markets")
 
 The virtual market displays the users portfolio, current values, graphs stock value change, and provides a sidebar for searching, buying, and selling stocks by symbol or by name.
 
@@ -41,10 +43,10 @@ Please add issues to the issues section of the repo
 
 ## Questions
 
-Find us on GitHub at: https://github.com/asmaa-aboasha/MoneyVestor
+Find us on GitHub at: https://github.com/asmaa-aboasha/MoneyVestor \
 Contributors:\
-https://github.com/asmaa-aboasha\
-https://github.com/jodoedjr\
-https://github.com/JacobHoss\
-https://github.com/logantwalker\
+https://github.com/asmaa-aboasha \
+https://github.com/jodoedjr \
+https://github.com/JacobHoss \
+https://github.com/logantwalker 
 
